@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import GraphVisualizer from '../components/GraphVisualizer';
+import CodeDisplay from '@/components/CodeDisplay';
 import { Graph, GraphNode, GraphEdge, GraphStep } from '../algorithms/graphTypes';
 import { createRandomGraph, bfs, dfs, dijkstra } from '../algorithms/graphAlgorithms';
 import './GraphVisualizerPage.css';
@@ -17,6 +18,8 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [speed, setSpeed] = useState<number>(500);
   const [nodeCount, setNodeCount] = useState<number>(8);
+  const [codeLanguage, setCodeLanguage] = useState<'python' | 'javascript'>('python');
+  const [highlightedLines, setHighlightedLines] = useState<number[]>([]);
 
   const generatorRef = useRef<Generator<GraphStep> | null>(null);
   const animationRef = useRef<number | null>(null);
@@ -30,6 +33,7 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
     setCurrentStep(null);
     setMessage(t('graph.message.initial'));
     setIsRunning(false);
+    setHighlightedLines([]);
     generatorRef.current = null;
   }, [nodeCount, t]);
 
@@ -72,8 +76,23 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
         return;
       }
 
-      setCurrentStep(result.value);
-      setMessage(result.value.message || '');
+      const stepData = result.value;
+      setCurrentStep(stepData);
+      setMessage(stepData.message || '');
+
+      if (stepData.type === 'visit' || stepData.type === 'current') {
+        if (algorithmId === 'bfs') {
+          setHighlightedLines([9, 10]);
+        } else if (algorithmId === 'dfs') {
+          setHighlightedLines([5, 6]);
+        } else if (algorithmId === 'dijkstra') {
+          setHighlightedLines([12, 13, 14, 15]);
+        }
+      } else if (stepData.type === 'enqueue' || stepData.type === 'push') {
+        setHighlightedLines([12, 13, 14]);
+      } else if (stepData.type === 'init') {
+        setHighlightedLines([4, 5, 6]);
+      }
 
       animationRef.current = requestAnimationFrame(() => {
         setTimeout(step, speed);
@@ -87,7 +106,7 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isRunning, speed, t]);
+  }, [isRunning, speed, t, algorithmId]);
 
   useEffect(() => {
     reset();
@@ -167,14 +186,41 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
         </div>
       </div>
 
-      <GraphVisualizer
-        nodes={displayGraph.nodes}
-        edges={displayGraph.edges}
-        distances={currentStep?.distances}
-      />
+      <div className="visualizer-content">
+        <div className="visualizer-main">
+          <GraphVisualizer
+            nodes={displayGraph.nodes}
+            edges={displayGraph.edges}
+            distances={currentStep?.distances}
+          />
 
-      <div className="message-box">
-        <p>{message}</p>
+          <div className="message-box">
+            <p>{message}</p>
+          </div>
+        </div>
+
+        <div className="visualizer-sidebar">
+          <div className="code-language-toggle">
+            <button
+              className={`language-button ${codeLanguage === 'python' ? 'active' : ''}`}
+              onClick={() => setCodeLanguage('python')}
+            >
+              Python
+            </button>
+            <button
+              className={`language-button ${codeLanguage === 'javascript' ? 'active' : ''}`}
+              onClick={() => setCodeLanguage('javascript')}
+            >
+              JavaScript
+            </button>
+          </div>
+
+          <CodeDisplay
+            algorithm={algorithmId}
+            highlightedLines={highlightedLines}
+            language={codeLanguage}
+          />
+        </div>
       </div>
     </div>
   );

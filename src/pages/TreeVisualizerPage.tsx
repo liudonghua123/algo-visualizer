@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import CodeDisplay from '@/components/CodeDisplay';
 import { TreeNode, TreeStep } from '../algorithms/treeTypes';
-import { createRandomBinaryTree, preorderTraversal, inorderTraversal, postorderTraversal } from '../algorithms/treeTraversal';
+import { preorder, inorder, postorder, generateSampleTree } from '../algorithms/treeAlgorithms';
 import './TreeVisualizerPage.css';
 
 interface TreeVisualizerPageProps {
@@ -10,12 +11,15 @@ interface TreeVisualizerPageProps {
 
 const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) => {
   const { t } = useTranslation();
-  const [tree, setTree] = useState<TreeNode | null>(() => createRandomBinaryTree(3));
+  const [tree, setTree] = useState<TreeNode>(() => generateSampleTree());
+  const [traversalType, setTraversalType] = useState<'preorder' | 'inorder' | 'postorder'>(
+    algorithmId === 'preorder' ? 'preorder' : algorithmId === 'inorder' ? 'inorder' : 'postorder'
+  );
   const [currentStep, setCurrentStep] = useState<TreeStep | null>(null);
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [speed, setSpeed] = useState<number>(500);
-  const [traversalType, setTraversalType] = useState<'preorder' | 'inorder' | 'postorder'>('inorder');
-  const [depth, setDepth] = useState<number>(3);
+  const [speed, setSpeed] = useState<number>(800);
+  const [codeLanguage, setCodeLanguage] = useState<'python' | 'javascript'>('python');
+  const [highlightedLines, setHighlightedLines] = useState<number[]>([]);
 
   const generatorRef = useRef<Generator<TreeStep> | null>(null);
   const animationRef = useRef<number | null>(null);
@@ -24,27 +28,21 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
     }
-    setTree(createRandomBinaryTree(depth));
+    setTree(generateSampleTree());
     setCurrentStep(null);
     setIsRunning(false);
+    setHighlightedLines([]);
     generatorRef.current = null;
-  }, [depth]);
+  }, []);
 
   const runTraversal = useCallback(() => {
     if (!generatorRef.current) {
-      switch (traversalType) {
-        case 'preorder':
-          generatorRef.current = preorderTraversal(tree);
-          break;
-        case 'inorder':
-          generatorRef.current = inorderTraversal(tree);
-          break;
-        case 'postorder':
-          generatorRef.current = postorderTraversal(tree);
-          break;
-        default:
-          return;
-      }
+      generatorRef.current =
+        traversalType === 'preorder'
+          ? preorder(tree)
+          : traversalType === 'inorder'
+          ? inorder(tree)
+          : postorder(tree);
     }
 
     setIsRunning(true);
@@ -68,7 +66,18 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
         return;
       }
 
-      setCurrentStep(result.value);
+      const stepData = result.value;
+      setCurrentStep(stepData);
+
+      if (stepData.type === 'visit') {
+        setHighlightedLines([5]);
+      } else if (stepData.type === 'left') {
+        setHighlightedLines([6]);
+      } else if (stepData.type === 'right') {
+        setHighlightedLines([7]);
+      } else if (stepData.type === 'base') {
+        setHighlightedLines([2, 3]);
+      }
 
       animationRef.current = requestAnimationFrame(() => {
         setTimeout(step, speed);
@@ -86,99 +95,29 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
 
   useEffect(() => {
     reset();
-  }, [depth, reset]);
+  }, [algorithmId, reset]);
 
-  const renderTree = () => {
-    if (!tree) return null;
-
-    const visitedNodes = currentStep?.visitedNodes || [];
-    const currentNode = currentStep?.currentNode;
-
-    return (
-      <div className="tree-visualization">
-        <svg width="100%" height="400" viewBox="0 0 600 400">
-          <defs>
-            <filter id="treeGlow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          {renderNodes(tree, 300, 40, 0, visitedNodes, currentNode)}
-        </svg>
-      </div>
-    );
-  };
-
-  const renderNodes = (
-    node: TreeNode | null,
-    x: number,
-    y: number,
-    level: number,
-    visitedNodes: number[],
-    currentNode?: number
-  ) => {
+  const renderNode = (node: TreeNode | null, level: number = 0, position: number = 0): JSX.Element | null => {
     if (!node) return null;
 
-    const nodeId = (node as any).id || 0;
-    const spacing = 250 / Math.pow(2, level);
-    const isVisited = visitedNodes.includes(node.value);
-    const isCurrent = currentNode === nodeId;
-    const strokeColor = isVisited ? 'var(--color-bar-sorted)' : 'var(--color-text-muted)';
-    const fillColor = isCurrent ? 'var(--color-bar-comparing)' : isVisited ? 'var(--color-bar-sorted)' : 'var(--color-accent-primary)';
-    const strokeHighlight = isCurrent ? '#fbbf24' : isVisited ? '#34d399' : 'var(--color-accent-secondary)';
+    const isCurrent = currentStep?.currentNode?.val === node.val;
+    const isVisited = currentStep?.visitedNodes?.includes(node.val) || false;
+    const isInStack = currentStep?.stackNodes?.includes(node.val) || false;
 
     return (
-      <g key={nodeId}>
-        {node.left && (
-          <>
-            <line
-              x1={x}
-              y1={y + 25}
-              x2={x - spacing}
-              y2={y + 80}
-              stroke={strokeColor}
-              strokeWidth="2"
-            />
-            {renderNodes(node.left, x - spacing, y + 80, level + 1, visitedNodes, currentNode)}
-          </>
+      <div className="tree-node-wrapper" key={node.val}>
+        <div
+          className={`tree-node ${isCurrent ? 'current' : ''} ${isVisited ? 'visited' : ''} ${isInStack ? 'in-stack' : ''}`}
+        >
+          <div className="node-value">{node.val}</div>
+        </div>
+        {(node.left || node.right) && (
+          <div className="tree-children">
+            {renderNode(node.left, level + 1, position * 2)}
+            {renderNode(node.right, level + 1, position * 2 + 1)}
+          </div>
         )}
-        {node.right && (
-          <>
-            <line
-              x1={x}
-              y1={y + 25}
-              x2={x + spacing}
-              y2={y + 80}
-              stroke={strokeColor}
-              strokeWidth="2"
-            />
-            {renderNodes(node.right, x + spacing, y + 80, level + 1, visitedNodes, currentNode)}
-          </>
-        )}
-
-        <g transform={`translate(${x}, ${y})`}>
-          <circle
-            r="25"
-            fill={fillColor}
-            stroke={strokeHighlight}
-            strokeWidth="3"
-            filter={isCurrent ? 'url(#treeGlow)' : undefined}
-          />
-          <text
-            textAnchor="middle"
-            dy="6"
-            fill="var(--color-text)"
-            fontSize="16"
-            fontWeight="600"
-          >
-            {node.value}
-          </text>
-        </g>
-      </g>
+      </div>
     );
   };
 
@@ -192,34 +131,22 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
             onClick={() => setTraversalType('preorder')}
             disabled={isRunning}
           >
-            {t('tree.binaryTree.preorder.name')} ({t('tree.binaryTree.preorder.order')})
+            {t('tree.preorder.name')}
           </button>
           <button
             className={`toggle-btn ${traversalType === 'inorder' ? 'active' : ''}`}
             onClick={() => setTraversalType('inorder')}
             disabled={isRunning}
           >
-            {t('tree.binaryTree.inorder.name')} ({t('tree.binaryTree.inorder.order')})
+            {t('tree.inorder.name')}
           </button>
           <button
             className={`toggle-btn ${traversalType === 'postorder' ? 'active' : ''}`}
             onClick={() => setTraversalType('postorder')}
             disabled={isRunning}
           >
-            {t('tree.binaryTree.postorder.name')} ({t('tree.binaryTree.postorder.order')})
+            {t('tree.postorder.name')}
           </button>
-        </div>
-
-        <div className="control-group">
-          <label>{t('tree.depth')}: {depth}</label>
-          <input
-            type="range"
-            min="2"
-            max="4"
-            value={depth}
-            onChange={(e) => setDepth(Number(e.target.value))}
-            disabled={isRunning}
-          />
         </div>
 
         <div className="control-group">
@@ -230,68 +157,78 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
             {isRunning ? t('common.pause') : t('tree.start')}
           </button>
           <button className="control-btn secondary" onClick={reset}>
-            {t('tree.reset')}
+            {t('common.reset')}
           </button>
         </div>
 
         <div className="control-group">
           <label>{t('common.speed')}:</label>
           <button
-            className={`speed-btn ${speed === 800 ? 'active' : ''}`}
-            onClick={() => setSpeed(800)}
+            className={`speed-btn ${speed === 1200 ? 'active' : ''}`}
+            onClick={() => setSpeed(1200)}
           >
             {t('common.slow')}
           </button>
           <button
-            className={`speed-btn ${speed === 500 ? 'active' : ''}`}
-            onClick={() => setSpeed(500)}
+            className={`speed-btn ${speed === 800 ? 'active' : ''}`}
+            onClick={() => setSpeed(800)}
           >
             {t('common.medium')}
           </button>
           <button
-            className={`speed-btn ${speed === 200 ? 'active' : ''}`}
-            onClick={() => setSpeed(200)}
+            className={`speed-btn ${speed === 400 ? 'active' : ''}`}
+            onClick={() => setSpeed(400)}
           >
             {t('common.fast')}
           </button>
         </div>
       </div>
 
-      {renderTree()}
-
-      {currentStep?.traversal && (
-        <div className="traversal-result">
-          <div className="result-label">{t('tree.result')}:</div>
-          <div className="result-sequence">
-            {currentStep.traversal.map((value, index) => (
-              <span key={index} className="result-item">
-                {value}
-                {index < currentStep.traversal.length - 1 && <span className="arrow">→</span>}
-              </span>
-            ))}
+      <div className="visualizer-content">
+        <div className="visualizer-main">
+          <div className="tree-container">
+            <div className="tree-visualization">
+              {renderNode(tree)}
+            </div>
           </div>
+
+          <div className="message-box">
+            <p>{currentStep?.message || t('tree.setTarget')}</p>
+          </div>
+
+          {currentStep?.result && (
+            <div className="result-box">
+              <h4>{t('tree.result')}:</h4>
+              <div className="result-sequence">
+                {currentStep.result.map((val, idx) => (
+                  <span key={idx} className="result-item">{val}</span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      )}
 
-      <div className="message-box">
-        <p>{currentStep?.message || t('tree.selectType')}</p>
-      </div>
+        <div className="visualizer-sidebar">
+          <div className="code-language-toggle">
+            <button
+              className={`language-button ${codeLanguage === 'python' ? 'active' : ''}`}
+              onClick={() => setCodeLanguage('python')}
+            >
+              Python
+            </button>
+            <button
+              className={`language-button ${codeLanguage === 'javascript' ? 'active' : ''}`}
+              onClick={() => setCodeLanguage('javascript')}
+            >
+              JavaScript
+            </button>
+          </div>
 
-      <div className="info-box">
-        <h4>{t('tree.binaryTreeTraversal')}</h4>
-        <div className="traversal-types">
-          <div className="traversal-type">
-            <strong>{t('tree.binaryTree.preorder.name')}</strong>
-            <p>{t('tree.binaryTree.preorder.description')}</p>
-          </div>
-          <div className="traversal-type">
-            <strong>{t('tree.binaryTree.inorder.name')}</strong>
-            <p>{t('tree.binaryTree.inorder.description')}</p>
-          </div>
-          <div className="traversal-type">
-            <strong>{t('tree.binaryTree.postorder.name')}</strong>
-            <p>{t('tree.binaryTree.postorder.description')}</p>
-          </div>
+          <CodeDisplay
+            algorithm={traversalType}
+            highlightedLines={highlightedLines}
+            language={codeLanguage}
+          />
         </div>
       </div>
     </div>

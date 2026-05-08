@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import DataStructureVisualizer from '../components/DataStructureVisualizer';
-import { StackNode, QueueNode, LinkedListNode, DataStructureStep } from '../algorithms/dataStructureTypes';
-import { stackOperations, queueOperations, linkedListOperations } from '../algorithms/dataStructureOperations';
+import CodeDisplay from '@/components/CodeDisplay';
 import './DataStructurePage.css';
 
 interface DataStructurePageProps {
@@ -11,288 +9,249 @@ interface DataStructurePageProps {
 
 const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) => {
   const { t } = useTranslation();
-  const [data, setData] = useState<StackNode[] | QueueNode[] | LinkedListNode[]>([]);
-  const [highlightedIndices, setHighlightedIndices] = useState<number[]>([]);
+  const [dataStructure, setDataStructure] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>('');
-  const [positionValue, setPositionValue] = useState<string>('');
-  const [operations, setOperations] = useState<string[]>([]);
   const [speed, setSpeed] = useState<number>(500);
+  const [dsType, setDsType] = useState<'stack' | 'queue' | 'linkedList'>(
+    algorithmId === 'stack' ? 'stack' : algorithmId === 'queue' ? 'queue' : 'linkedList'
+  );
+  const [codeLanguage, setCodeLanguage] = useState<'python' | 'javascript'>('python');
+  const [highlightedLines, setHighlightedLines] = useState<number[]>([]);
 
-  const generatorRef = useRef<Generator<DataStructureStep> | null>(null);
   const animationRef = useRef<number | null>(null);
-
-  const getType = (): 'stack' | 'queue' | 'linkedList' => {
-    switch (algorithmId) {
-      case 'stack':
-        return 'stack';
-      case 'queue':
-        return 'queue';
-      case 'linkedList':
-        return 'linkedList';
-      default:
-        return 'stack';
-    }
-  };
 
   const reset = useCallback(() => {
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
     }
-    setData([]);
-    setHighlightedIndices([]);
-    setMessage(t('datastructure.message.initial'));
+    setDataStructure([]);
+    setMessage('');
     setIsRunning(false);
-    setOperations([]);
-    generatorRef.current = null;
-  }, [t]);
+    setHighlightedLines([]);
+  }, []);
 
-  const addOperation = (op: string) => {
-    setOperations((prev) => [...prev, op]);
-  };
-
-  const runOperations = useCallback(() => {
-    if (operations.length === 0) {
-      setMessage(t('datastructure.message.noOperations'));
+  const addOperation = useCallback((operation: string) => {
+    const val = inputValue.trim();
+    if (!val) {
+      setMessage(t('datastructure.enterValue'));
       return;
     }
 
-    switch (algorithmId) {
-      case 'stack':
-        generatorRef.current = stackOperations(operations);
-        break;
-      case 'queue':
-        generatorRef.current = queueOperations(operations);
-        break;
-      case 'linkedList':
-        generatorRef.current = linkedListOperations(operations);
-        break;
-      default:
-        return;
+    setIsRunning(true);
+    setHighlightedLines([4, 5]);
+
+    animationRef.current = requestAnimationFrame(() => {
+      setTimeout(() => {
+        switch (operation) {
+          case 'push':
+            setDataStructure(prev => [...prev, val]);
+            setMessage(`${val} ${t('datastructure.pushed')}`);
+            setHighlightedLines([4, 5]);
+            break;
+          case 'enqueue':
+            setDataStructure(prev => [val, ...prev]);
+            setMessage(`${val} ${t('datastructure.enqueued')}`);
+            setHighlightedLines([8, 9]);
+            break;
+          case 'insert':
+            setDataStructure(prev => [...prev, val]);
+            setMessage(`${val} ${t('datastructure.inserted')}`);
+            setHighlightedLines([10, 11, 12, 13]);
+            break;
+          default:
+            break;
+        }
+        setIsRunning(false);
+      }, speed);
+    });
+  }, [inputValue, speed, t]);
+
+  const removeOperation = useCallback((operation: string) => {
+    if (dataStructure.length === 0) {
+      setMessage(t('datastructure.empty'));
+      return;
     }
 
     setIsRunning(true);
-  }, [operations, algorithmId, t]);
 
-  const stopExecution = useCallback(() => {
-    setIsRunning(false);
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!isRunning || !generatorRef.current) return;
-
-    const step = () => {
-      const result = generatorRef.current!.next();
-
-      if (result.done) {
+    animationRef.current = requestAnimationFrame(() => {
+      setTimeout(() => {
+        switch (operation) {
+          case 'pop':
+            const popped = dataStructure[dataStructure.length - 1];
+            setDataStructure(prev => prev.slice(0, -1));
+            setMessage(`${t('datastructure.popped')}: ${popped}`);
+            setHighlightedLines([7, 8, 9]);
+            break;
+          case 'dequeue':
+            const dequeued = dataStructure[0];
+            setDataStructure(prev => prev.slice(1));
+            setMessage(`${t('datastructure.dequeued')}: ${dequeued}`);
+            setHighlightedLines([11, 12, 13]);
+            break;
+          case 'delete':
+            const deleted = dataStructure[dataStructure.length - 1];
+            setDataStructure(prev => prev.slice(0, -1));
+            setMessage(`${t('datastructure.deleted')}: ${deleted}`);
+            setHighlightedLines([17, 18, 19]);
+            break;
+          default:
+            break;
+        }
         setIsRunning(false);
-        return;
-      }
+      }, speed);
+    });
+  }, [dataStructure, speed, t]);
 
-      setData(result.value.structure);
-      setHighlightedIndices(result.value.highlightedIndices);
-      setMessage(result.value.message);
+  const peekOperation = useCallback(() => {
+    if (dataStructure.length === 0) {
+      setMessage(t('datastructure.empty'));
+      return;
+    }
 
-      animationRef.current = requestAnimationFrame(() => {
-        setTimeout(step, speed);
-      });
-    };
-
-    step();
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [isRunning, speed]);
+    const top = dsType === 'queue' ? dataStructure[0] : dataStructure[dataStructure.length - 1];
+    setMessage(`${t('common.peek')}: ${top}`);
+    setHighlightedLines([11, 12, 13]);
+  }, [dataStructure, dsType, t]);
 
   useEffect(() => {
     reset();
   }, [algorithmId, reset]);
 
-  const renderControls = () => {
-    switch (algorithmId) {
-      case 'stack':
-        return (
-          <>
-            <div className="input-group">
-              <input
-                type="number"
-                placeholder={t('common.inputValue')}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                disabled={isRunning}
-              />
-              <button
-                className="action-btn"
-                onClick={() => {
-                  if (inputValue) {
-                    addOperation(`push ${inputValue}`);
-                    setInputValue('');
-                  }
-                }}
-                disabled={isRunning}
-              >
-                {t('common.push')}
-              </button>
+  const renderVisualization = () => {
+    return (
+      <div className="ds-visualization">
+        {dsType === 'stack' && (
+          <div className="stack-container">
+            <div className="stack-label">{t('datastructure.stack.top')}</div>
+            <div className="stack-items">
+              {[...dataStructure].reverse().map((item, idx) => (
+                <div key={idx} className={`stack-item ${idx === 0 ? 'top' : ''}`}>
+                  {item}
+                </div>
+              ))}
+              {dataStructure.length === 0 && (
+                <div className="empty-state">{t('datastructure.empty')}</div>
+              )}
             </div>
-            <button
-              className="action-btn secondary"
-              onClick={() => addOperation('pop')}
-              disabled={isRunning}
-            >
-              {t('common.pop')}
-            </button>
-            <button
-              className="action-btn secondary"
-              onClick={() => addOperation('peek')}
-              disabled={isRunning}
-            >
-              {t('common.peek')}
-            </button>
-          </>
-        );
-      case 'queue':
-        return (
-          <>
-            <div className="input-group">
-              <input
-                type="number"
-                placeholder={t('common.inputValue')}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                disabled={isRunning}
-              />
-              <button
-                className="action-btn"
-                onClick={() => {
-                  if (inputValue) {
-                    addOperation(`enqueue ${inputValue}`);
-                    setInputValue('');
-                  }
-                }}
-                disabled={isRunning}
-              >
-                {t('common.enqueue')}
-              </button>
+          </div>
+        )}
+
+        {dsType === 'queue' && (
+          <div className="queue-container">
+            <div className="queue-label-front">{t('datastructure.queue.front')}</div>
+            <div className="queue-items">
+              {dataStructure.map((item, idx) => (
+                <div key={idx} className={`queue-item ${idx === 0 ? 'front' : ''}`}>
+                  {item}
+                </div>
+              ))}
+              {dataStructure.length === 0 && (
+                <div className="empty-state">{t('datastructure.empty')}</div>
+              )}
             </div>
-            <button
-              className="action-btn secondary"
-              onClick={() => addOperation('dequeue')}
-              disabled={isRunning}
-            >
-              {t('common.dequeue')}
-            </button>
-            <button
-              className="action-btn secondary"
-              onClick={() => addOperation('peek')}
-              disabled={isRunning}
-            >
-              {t('common.peek')}
-            </button>
-          </>
-        );
-      case 'linkedList':
-        return (
-          <>
-            <div className="input-group">
-              <input
-                type="number"
-                placeholder={t('common.inputValue')}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                disabled={isRunning}
-              />
-              <input
-                type="number"
-                placeholder={t('datastructure.linkedList.position')}
-                value={positionValue}
-                onChange={(e) => setPositionValue(e.target.value)}
-                disabled={isRunning}
-              />
-              <button
-                className="action-btn"
-                onClick={() => {
-                  if (inputValue) {
-                    addOperation(positionValue ? `insert ${inputValue} ${positionValue}` : `insert ${inputValue}`);
-                    setInputValue('');
-                    setPositionValue('');
-                  }
-                }}
-                disabled={isRunning}
-              >
-                {t('common.insert')}
-              </button>
+            <div className="queue-label-rear">{t('datastructure.queue.rear')}</div>
+          </div>
+        )}
+
+        {dsType === 'linkedList' && (
+          <div className="linked-list-container">
+            <div className="linked-list-label">{t('datastructure.linkedList.head')}</div>
+            <div className="linked-list-items">
+              {dataStructure.map((item, idx) => (
+                <React.Fragment key={idx}>
+                  <div className="ll-node">
+                    <span className="ll-value">{item}</span>
+                  </div>
+                  {idx < dataStructure.length - 1 && <span className="ll-arrow">→</span>}
+                </React.Fragment>
+              ))}
+              {dataStructure.length === 0 && (
+                <div className="empty-state">{t('datastructure.empty')}</div>
+              )}
+              <div className="ll-null">null</div>
             </div>
-            <div className="input-group">
-              <input
-                type="number"
-                placeholder={t('datastructure.linkedList.deletePosition')}
-                value={positionValue}
-                onChange={(e) => setPositionValue(e.target.value)}
-                disabled={isRunning}
-              />
-              <button
-                className="action-btn secondary"
-                onClick={() => {
-                  if (positionValue) {
-                    addOperation(`delete ${positionValue}`);
-                    setPositionValue('');
-                  }
-                }}
-                disabled={isRunning}
-              >
-                {t('common.delete')}
-              </button>
-            </div>
-            <div className="input-group">
-              <input
-                type="number"
-                placeholder={t('common.search')}
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                disabled={isRunning}
-              />
-              <button
-                className="action-btn secondary"
-                onClick={() => {
-                  if (inputValue) {
-                    addOperation(`search ${inputValue}`);
-                    setInputValue('');
-                  }
-                }}
-                disabled={isRunning}
-              >
-                {t('common.search')}
-              </button>
-            </div>
-          </>
-        );
-      default:
-        return null;
-    }
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
     <div className="ds-page">
       <div className="ds-controls">
-        <div className="operations-section">
-          {renderControls()}
+        <div className="control-group">
+          <label>{t('datastructure.type')}:</label>
+          <button
+            className={`toggle-btn ${dsType === 'stack' ? 'active' : ''}`}
+            onClick={() => { setDsType('stack'); reset(); }}
+            disabled={isRunning}
+          >
+            {t('datastructure.stack.name')}
+          </button>
+          <button
+            className={`toggle-btn ${dsType === 'queue' ? 'active' : ''}`}
+            onClick={() => { setDsType('queue'); reset(); }}
+            disabled={isRunning}
+          >
+            {t('datastructure.queue.name')}
+          </button>
+          <button
+            className={`toggle-btn ${dsType === 'linkedList' ? 'active' : ''}`}
+            onClick={() => { setDsType('linkedList'); reset(); }}
+            disabled={isRunning}
+          >
+            {t('datastructure.linkedList.name')}
+          </button>
+        </div>
+
+        <div className="input-group">
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder={t('datastructure.enterValue')}
+            disabled={isRunning}
+          />
+          {dsType === 'stack' && (
+            <>
+              <button className="action-btn" onClick={() => addOperation('push')} disabled={isRunning}>
+                {t('datastructure.stack.push')}
+              </button>
+              <button className="action-btn secondary" onClick={() => removeOperation('pop')} disabled={isRunning}>
+                {t('datastructure.stack.pop')}
+              </button>
+            </>
+          )}
+          {dsType === 'queue' && (
+            <>
+              <button className="action-btn" onClick={() => addOperation('enqueue')} disabled={isRunning}>
+                {t('datastructure.queue.enqueue')}
+              </button>
+              <button className="action-btn secondary" onClick={() => removeOperation('dequeue')} disabled={isRunning}>
+                {t('datastructure.queue.dequeue')}
+              </button>
+            </>
+          )}
+          {dsType === 'linkedList' && (
+            <>
+              <button className="action-btn" onClick={() => addOperation('insert')} disabled={isRunning}>
+                {t('datastructure.linkedList.insert')}
+              </button>
+              <button className="action-btn secondary" onClick={() => removeOperation('delete')} disabled={isRunning}>
+                {t('datastructure.linkedList.delete')}
+              </button>
+            </>
+          )}
         </div>
 
         <div className="control-group">
-          <button
-            className="control-btn primary"
-            onClick={isRunning ? stopExecution : runOperations}
-          >
-            {isRunning ? t('common.pause') : t('common.start')}
+          <button className="action-btn secondary" onClick={peekOperation} disabled={isRunning}>
+            {t('common.peek')}
           </button>
-          <button className="control-btn secondary" onClick={reset}>
+          <button className="action-btn secondary" onClick={reset} disabled={isRunning}>
             {t('common.reset')}
           </button>
         </div>
@@ -320,27 +279,37 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
         </div>
       </div>
 
-      {operations.length > 0 && (
-        <div className="operations-list">
-          <h4>{t('datastructure.operations')}:</h4>
-          <div className="operations-tags">
-            {operations.map((op, index) => (
-              <span key={index} className="operation-tag">
-                {op}
-              </span>
-            ))}
+      <div className="visualizer-content">
+        <div className="visualizer-main">
+          {renderVisualization()}
+
+          <div className="message-box">
+            <p>{message || t('datastructure.instruction')}</p>
           </div>
         </div>
-      )}
 
-      <DataStructureVisualizer
-        type={getType()}
-        data={data}
-        highlightedIndices={highlightedIndices}
-      />
+        <div className="visualizer-sidebar">
+          <div className="code-language-toggle">
+            <button
+              className={`language-button ${codeLanguage === 'python' ? 'active' : ''}`}
+              onClick={() => setCodeLanguage('python')}
+            >
+              Python
+            </button>
+            <button
+              className={`language-button ${codeLanguage === 'javascript' ? 'active' : ''}`}
+              onClick={() => setCodeLanguage('javascript')}
+            >
+              JavaScript
+            </button>
+          </div>
 
-      <div className="message-box">
-        <p>{message}</p>
+          <CodeDisplay
+            algorithm={dsType}
+            highlightedLines={highlightedLines}
+            language={codeLanguage}
+          />
+        </div>
       </div>
     </div>
   );
