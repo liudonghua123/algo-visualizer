@@ -1,98 +1,151 @@
-.graph-visualizer {
-  width: 100%;
-  height: 400px;
-  padding: 20px;
-  background: var(--color-bg-card);
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
+.graph-page {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--color-border);
+  flex-direction: column;
+  gap: 24px;
 }
 
-.graph-visualizer svg {
-  max-width: 100%;
-  max-height: 100%;
+.graph-container {
+  padding: 32px;
+  background: var(--color-bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+  min-height: 500px;
+}
+
+.graph-controls {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 24px;
+  background: var(--color-bg-card);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.graph-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.graph-control-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.graph-svg {
+  width: 100%;
+  height: 450px;
 }
 
 .graph-node {
-  fill: var(--color-accent-primary);
-  stroke: var(--color-accent-secondary);
-  stroke-width: 3;
-  transition: all 0.3s ease;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.graph-node:hover {
-  fill: var(--color-accent-secondary);
-  transform: scale(1.1);
-}
-
-.node-current {
-  fill: var(--color-bar-comparing);
-  stroke: #fbbf24;
-  stroke-width: 4;
-  animation: pulse 1s ease-in-out infinite;
-}
-
-.node-visited {
-  fill: var(--color-bar-sorted);
-  stroke: #34d399;
+.graph-node circle {
+  fill: var(--color-bg-card);
+  stroke: var(--color-accent-primary);
   stroke-width: 3;
+  transition: all 0.2s ease;
 }
 
-.node-path {
-  fill: var(--color-bar-swapping);
-  stroke: #f472b6;
-  stroke-width: 4;
+.graph-node.visited circle {
+  fill: var(--color-bar-sorted);
+  stroke: var(--color-bar-sorted);
 }
 
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
+.graph-node.current circle {
+  fill: var(--color-bar-comparing);
+  stroke: var(--color-bar-comparing);
+  filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.6));
 }
 
-.node-label {
+.graph-node.queued circle {
+  fill: var(--color-bar-pivot);
+  stroke: var(--color-bar-pivot);
+}
+
+.graph-node-text {
   fill: var(--color-text);
   font-size: 16px;
-  font-weight: 600;
-  pointer-events: none;
-}
-
-.node-distance {
-  fill: var(--color-text-muted);
-  font-size: 12px;
-  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
   pointer-events: none;
 }
 
 .graph-edge {
-  stroke: var(--color-text-muted);
+  stroke: var(--color-border);
   stroke-width: 2;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
-.edge-current {
+.graph-edge.visited {
+  stroke: var(--color-bar-sorted);
+  stroke-width: 3;
+}
+
+.graph-edge.current {
   stroke: var(--color-bar-comparing);
   stroke-width: 3;
 }
 
-.edge-path {
-  stroke: var(--color-bar-swapping);
-  stroke-width: 3;
-}
-
-.edge-weight {
+.graph-edge-weight {
   fill: var(--color-text-muted);
   font-size: 12px;
-  font-family: 'JetBrains Mono', monospace;
-  pointer-events: none;
+  font-weight: 600;
+  text-anchor: middle;
+}
+
+.graph-result {
+  padding: 24px;
   background: var(--color-bg-card);
-  padding: 2px 4px;
-  border-radius: 4px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.graph-result-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.graph-result-content {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--color-accent-primary);
+  line-height: 1.6;
+  word-break: break-all;
+}
+
+@media (max-width: 768px) {
+  .graph-container {
+    padding: 20px;
+    min-height: 350px;
+  }
+
+  .graph-svg {
+    height: 300px;
+  }
+
+  .graph-controls {
+    padding: 16px;
+  }
+
+  .graph-result {
+    padding: 16px;
+  }
 }

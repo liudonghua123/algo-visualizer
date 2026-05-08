@@ -52,7 +52,8 @@
     "title": "Algorithm Visualization Platform",
     "subtitle": "Understand how various algorithms and data structures work through interactive animations",
     "selectAlgorithm": "Select an algorithm to start learning",
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "explore": "Explore Now"
   },
   "sorting": {
     "title": "Sorting Algorithms",

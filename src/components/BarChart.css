@@ -1,89 +1,89 @@
 .bar-chart {
-  width: 100%;
-  height: 400px;
-  padding: 20px;
+  padding: 32px;
   background: var(--color-bg-card);
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  overflow: hidden;
+  border-radius: 16px;
   border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
 }
 
-.bar-chart-container {
+.bar-container {
   display: flex;
   align-items: flex-end;
   justify-content: center;
   gap: 2px;
-  height: 100%;
-  width: 100%;
-  max-width: 1200px;
+  height: 320px;
+  padding: 16px 0;
 }
 
-.bar {
+.bar-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  border-radius: 4px 4px 0 0;
-  transition: all 0.15s ease-in-out;
-  position: relative;
+  flex: 1;
+  max-width: 40px;
   min-width: 4px;
+  transition: all 0.15s ease;
 }
 
-.bar-default {
-  background: linear-gradient(180deg, var(--color-accent-secondary) 0%, var(--color-accent-primary) 100%);
-  box-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+.bar {
+  width: 100%;
+  border-radius: 6px 6px 0 0;
+  transition: all 0.15s ease;
+  position: relative;
 }
 
-.bar-comparing {
-  background: linear-gradient(180deg, #fbbf24 0%, var(--color-bar-comparing) 100%);
-  box-shadow: 0 0 16px rgba(245, 158, 11, 0.6);
-  transform: scaleY(1.02);
+.bar.default {
+  background: linear-gradient(180deg, var(--color-bar-default), color-mix(in srgb, var(--color-bar-default) 70%, black));
 }
 
-.bar-swapping {
-  background: linear-gradient(180deg, #f472b6 0%, var(--color-bar-swapping) 100%);
-  box-shadow: 0 0 20px rgba(236, 72, 153, 0.7);
-  transform: scaleY(1.05);
+.bar.comparing {
+  background: linear-gradient(180deg, var(--color-bar-comparing), color-mix(in srgb, var(--color-bar-comparing) 70%, black));
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
 }
 
-.bar-sorted {
-  background: linear-gradient(180deg, #34d399 0%, var(--color-bar-sorted) 100%);
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+.bar.swapping {
+  background: linear-gradient(180deg, var(--color-bar-swapping), color-mix(in srgb, var(--color-bar-swapping) 70%, black));
+  box-shadow: 0 0 16px rgba(236, 72, 153, 0.5);
 }
 
-.bar-pivot {
-  background: linear-gradient(180deg, #c084fc 0%, var(--color-bar-pivot) 100%);
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.7);
-  transform: scaleY(1.05);
+.bar.sorted {
+  background: linear-gradient(180deg, var(--color-bar-sorted), color-mix(in srgb, var(--color-bar-sorted) 70%, black));
+}
+
+.bar.pivot {
+  background: linear-gradient(180deg, var(--color-bar-pivot), color-mix(in srgb, var(--color-bar-pivot) 70%, black));
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.5);
+}
+
+.bar:hover {
+  filter: brightness(1.1);
 }
 
 .bar-value {
-  position: absolute;
-  top: -24px;
   font-size: 10px;
-  color: var(--color-text);
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  opacity: 0;
-  transition: opacity 0.2s;
-  white-space: nowrap;
-}
-
-.bar:hover .bar-value {
-  opacity: 1;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+  text-align: center;
 }
 
 @media (max-width: 768px) {
   .bar-chart {
-    height: 300px;
-    padding: 16px;
+    padding: 20px;
+  }
+
+  .bar-container {
+    height: 250px;
+    gap: 1px;
+  }
+
+  .bar-wrapper {
+    max-width: 28px;
+    min-width: 2px;
   }
 
   .bar-value {
     font-size: 8px;
-    top: -20px;
   }
 }

@@ -1,40 +1,32 @@
 .stats-display {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  padding: 20px 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 20px;
   background: var(--color-bg-card);
   border-radius: 12px;
-  box-shadow: var(--shadow-lg);
   border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
 }
 
 .stat-item {
   display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.stat-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.1) 100%);
-  color: var(--color-accent-primary);
-}
-
-.stat-content {
-  display: flex;
   flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 6px;
+  padding: 16px;
+  background: var(--color-bg-secondary);
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.stat-item:hover {
+  background: var(--color-bg-hover);
+  transform: translateY(-2px);
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -42,42 +34,31 @@
 }
 
 .stat-value {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--color-text);
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 48px;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    var(--color-border) 50%,
-    transparent 100%
-  );
+  font-size: 28px;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 @media (max-width: 768px) {
   .stats-display {
-    flex-direction: column;
-    gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
     padding: 16px;
   }
 
-  .stat-divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      var(--color-border) 50%,
-      transparent 100%
-    );
+  .stat-item {
+    padding: 12px;
   }
 
   .stat-value {
-    font-size: 20px;
+    font-size: 22px;
+  }
+
+  .stat-label {
+    font-size: 10px;
   }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { CATEGORIES, ALGORITHMS } from '../algorithms/registry';
+import { Sparkles, Play } from 'lucide-react';
 import './Home.css';
 
 const Home: React.FC = () => {
@@ -14,10 +15,23 @@ const Home: React.FC = () => {
 
   return (
     <div className="home">
-      <header className="home-header">
-        <h1 className="home-title">{t('home.title')}</h1>
-        <p className="home-subtitle">{t('home.subtitle')}</p>
-      </header>
+      <section className="home-hero">
+        <div className="hero-badge">
+          <Sparkles size={14} />
+          <span>Interactive Algorithm Visualization</span>
+        </div>
+        <h1 className="hero-title">{t('home.title')}</h1>
+        <p className="hero-subtitle">{t('home.subtitle')}</p>
+        <div className="hero-actions">
+          <button 
+            className="hero-btn hero-btn-primary"
+            onClick={() => document.querySelector('.category-section')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            <Play size={18} />
+            <span>{t('home.explore')}</span>
+          </button>
+        </div>
+      </section>
 
       <div className="categories">
         {CATEGORIES.map((category) => {

@@ -1,52 +1,55 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Code2 } from 'lucide-react';
-import LanguageToggle from './LanguageToggle';
-import ThemeToggle from './ThemeToggle';
+import { Code2, Sun, Moon, Globe } from 'lucide-react';
+import { useThemeContext } from '@/contexts/ThemeContext';
+import './Header.css';
 
 export default function Header() {
   const { t } = useTranslation();
+  const { isDark, toggleTheme } = useThemeContext();
+  const { i18n } = useTranslation();
+  const currentLang = i18n.language;
+
+  const toggleLanguage = () => {
+    const newLang = currentLang === 'zh' ? 'en' : 'zh';
+    i18n.changeLanguage(newLang);
+    localStorage.setItem('i18nextLng', newLang);
+  };
 
   return (
-    <header 
-      className="shadow-lg"
-      style={{ 
-        background: 'linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%)',
-        borderBottom: '1px solid var(--color-border)'
-      }}
-    >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div 
-              className="p-2 rounded-lg transition-all duration-300"
-              style={{ 
-                background: 'rgba(99, 102, 241, 0.2)',
-                backdropFilter: 'blur(8px)'
-              }}
-            >
-              <Code2 
-                className="w-6 h-6" 
-                style={{ color: 'var(--color-text)' }}
-              />
-            </div>
-            <h1 
-              className="text-xl md:text-2xl font-bold tracking-tight"
-              style={{ 
-                color: 'var(--color-text)',
-                background: 'linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #a855f7 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
-            >
-              {t('common.title')}
-            </h1>
-          </Link>
+    <header className="header">
+      <div className="header-container">
+        <Link to="/" className="header-logo">
+          <div className="logo-icon">
+            <Code2 size={24} />
+          </div>
+          <h1 className="logo-text">{t('common.title')}</h1>
+        </Link>
 
-          <div className="flex items-center space-x-3">
-            <LanguageToggle />
-            <ThemeToggle />
+        <div className="header-actions">
+          <div className="toggle-group">
+            <button
+              className="toggle-btn lang-toggle"
+              onClick={toggleLanguage}
+              aria-label={currentLang === 'zh' ? 'Switch to English' : '切换到中文'}
+            >
+              <Globe size={18} className="toggle-icon" />
+              <span className="toggle-label">{currentLang === 'zh' ? 'EN' : '中'}</span>
+            </button>
+
+            <button
+              className="toggle-btn theme-toggle"
+              onClick={toggleTheme}
+              aria-label={isDark ? 'Switch to light mode' : '切换到暗色主题'}
+            >
+              <div className="theme-switch">
+                <div className={`theme-icons ${isDark ? 'dark' : 'light'}`}>
+                  <Sun size={16} className="sun-icon" />
+                  <Moon size={16} className="moon-icon" />
+                </div>
+                <div className="toggle-knob"></div>
+              </div>
+            </button>
           </div>
         </div>
       </div>
