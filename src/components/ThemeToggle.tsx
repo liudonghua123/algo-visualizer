@@ -6,7 +6,16 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative p-2 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-all duration-200 ease-in-out group"
+      className="relative p-2 rounded-lg transition-all duration-200 ease-in-out group"
+      style={{
+        backgroundColor: 'var(--color-bg-hover)',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = 'var(--color-border)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = 'var(--color-bg-hover)';
+      }}
       aria-label={isDark ? '切换到亮色主题' : '切换到暗色主题'}
     >
       <div className="relative w-6 h-6">
@@ -27,9 +36,10 @@ export default function ThemeToggle() {
         </svg>
 
         <svg
-          className={`absolute inset-0 w-6 h-6 text-slate-300 transition-all duration-300 ease-in-out ${
+          className={`absolute inset-0 w-6 h-6 transition-all duration-300 ease-in-out ${
             isDark ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'
           }`}
+          style={{ color: 'var(--color-accent-secondary)' }}
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

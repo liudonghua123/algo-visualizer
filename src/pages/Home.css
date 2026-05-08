@@ -12,9 +12,8 @@
 .home-title {
   font-size: 56px;
   font-weight: 800;
-  color: var(--color-text);
   margin: 0 0 20px 0;
-  background: linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #a855f7 100%);
+  background: linear-gradient(135deg, var(--color-accent-secondary) 0%, var(--color-accent-primary) 50%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -52,6 +51,7 @@
   background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
 }
 
 .category-icon {
@@ -87,7 +87,7 @@
   align-items: flex-start;
   gap: 16px;
   padding: 24px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border: 2px solid var(--color-border);
   border-radius: 12px;
   cursor: pointer;
@@ -96,8 +96,8 @@
 }
 
 .algorithm-card:hover {
-  border-color: #6366f1;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-hover) 100%);
+  border-color: var(--color-accent-primary);
+  background: var(--color-bg-hover);
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
 }
@@ -136,7 +136,7 @@
 
 .complexity-item {
   font-size: 11px;
-  color: #818cf8;
+  color: var(--color-accent-primary);
   font-family: 'JetBrains Mono', monospace;
   padding: 4px 8px;
   background: rgba(99, 102, 241, 0.1);

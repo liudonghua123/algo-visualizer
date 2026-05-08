@@ -8,10 +8,11 @@
   display: flex;
   gap: 24px;
   padding: 20px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
   flex-wrap: wrap;
+  border: 1px solid var(--color-border);
 }
 
 .operations-section {
@@ -38,7 +39,7 @@
 
 .input-group input:focus {
   outline: none;
-  border-color: #6366f1;
+  border-color: var(--color-accent-primary);
 }
 
 .input-group input::placeholder {
@@ -53,7 +54,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, var(--color-bar-sorted) 0%, #059669 100%);
   color: white;
 }
 
@@ -68,7 +69,7 @@
 }
 
 .action-btn.secondary {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, var(--color-accent-primary) 0%, #4f46e5 100%);
 }
 
 .action-btn.secondary:hover:not(:disabled) {
@@ -98,7 +99,7 @@
 }
 
 .control-btn.primary {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, var(--color-bar-sorted) 0%, #059669 100%);
   color: white;
 }
 
@@ -108,7 +109,7 @@
 }
 
 .control-btn.secondary {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, var(--color-accent-primary) 0%, #4f46e5 100%);
   color: white;
 }
 
@@ -130,21 +131,22 @@
 }
 
 .speed-btn:hover {
-  border-color: #6366f1;
+  border-color: var(--color-accent-primary);
   color: var(--color-text);
 }
 
 .speed-btn.active {
-  background: #6366f1;
-  border-color: #6366f1;
+  background: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
   color: white;
 }
 
 .operations-list {
   padding: 16px 24px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
 }
 
 .operations-list h4 {
@@ -164,16 +166,17 @@
   background: rgba(99, 102, 241, 0.2);
   border: 1px solid rgba(99, 102, 241, 0.3);
   border-radius: 6px;
-  color: #818cf8;
+  color: var(--color-accent-primary);
   font-size: 12px;
   font-family: 'JetBrains Mono', monospace;
 }
 
 .message-box {
   padding: 16px 24px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
 }
 
 .message-box p {

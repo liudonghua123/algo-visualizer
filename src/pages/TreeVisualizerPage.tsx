@@ -127,6 +127,9 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
     const spacing = 250 / Math.pow(2, level);
     const isVisited = visitedNodes.includes(node.value);
     const isCurrent = currentNode === nodeId;
+    const strokeColor = isVisited ? 'var(--color-bar-sorted)' : 'var(--color-text-muted)';
+    const fillColor = isCurrent ? 'var(--color-bar-comparing)' : isVisited ? 'var(--color-bar-sorted)' : 'var(--color-accent-primary)';
+    const strokeHighlight = isCurrent ? '#fbbf24' : isVisited ? '#34d399' : 'var(--color-accent-secondary)';
 
     return (
       <g key={nodeId}>
@@ -137,7 +140,7 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
               y1={y + 25}
               x2={x - spacing}
               y2={y + 80}
-              stroke={isVisited ? '#10b981' : '#475569'}
+              stroke={strokeColor}
               strokeWidth="2"
             />
             {renderNodes(node.left, x - spacing, y + 80, level + 1, visitedNodes, currentNode)}
@@ -150,7 +153,7 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
               y1={y + 25}
               x2={x + spacing}
               y2={y + 80}
-              stroke={isVisited ? '#10b981' : '#475569'}
+              stroke={strokeColor}
               strokeWidth="2"
             />
             {renderNodes(node.right, x + spacing, y + 80, level + 1, visitedNodes, currentNode)}
@@ -160,15 +163,15 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
         <g transform={`translate(${x}, ${y})`}>
           <circle
             r="25"
-            fill={isCurrent ? '#f59e0b' : isVisited ? '#10b981' : '#6366f1'}
-            stroke={isCurrent ? '#fbbf24' : isVisited ? '#34d399' : '#818cf8'}
+            fill={fillColor}
+            stroke={strokeHighlight}
             strokeWidth="3"
             filter={isCurrent ? 'url(#treeGlow)' : undefined}
           />
           <text
             textAnchor="middle"
             dy="6"
-            fill="#f1f5f9"
+            fill="var(--color-text)"
             fontSize="16"
             fontWeight="600"
           >

@@ -14,11 +14,26 @@ export default function LanguageToggle() {
   return (
     <button
       onClick={toggleLanguage}
-      className="relative p-2 rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 transition-all duration-200 ease-in-out group"
+      className="relative p-2 rounded-lg transition-all duration-200 ease-in-out group"
+      style={{
+        backgroundColor: 'var(--color-bg-hover)',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundColor = 'var(--color-border)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundColor = 'var(--color-bg-hover)';
+      }}
       aria-label={currentLang === 'zh' ? 'Switch to English' : '切换到中文'}
     >
-      <Globe className="w-5 h-5 text-slate-700 dark:text-slate-200 transition-colors duration-200" />
-      <div className="absolute -bottom-1 -right-1 flex items-center justify-center w-4 h-4 bg-blue-500 text-white text-xs font-bold rounded-full shadow-md">
+      <Globe 
+        className="w-5 h-5 transition-colors duration-200" 
+        style={{ color: 'var(--color-text)' }}
+      />
+      <div 
+        className="absolute -bottom-1 -right-1 flex items-center justify-center w-4 h-4 text-white text-xs font-bold rounded-full shadow-md"
+        style={{ backgroundColor: 'var(--color-accent-primary)' }}
+      >
         {currentLang === 'zh' ? 'EN' : '中'}
       </div>
     </button>

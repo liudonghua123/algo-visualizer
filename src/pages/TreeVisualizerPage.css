@@ -8,10 +8,11 @@
   display: flex;
   gap: 24px;
   padding: 20px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
   flex-wrap: wrap;
+  border: 1px solid var(--color-border);
 }
 
 .control-group {
@@ -39,12 +40,12 @@
 }
 
 .toggle-btn:hover:not(:disabled) {
-  border-color: #6366f1;
+  border-color: var(--color-accent-primary);
   color: var(--color-text);
 }
 
 .toggle-btn.active {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, var(--color-accent-primary) 0%, #4f46e5 100%);
   border-color: transparent;
   color: white;
 }
@@ -68,7 +69,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #6366f1;
+  background: var(--color-accent-primary);
   cursor: pointer;
 }
 
@@ -83,7 +84,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .control-btn.primary {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, var(--color-bar-sorted) 0%, #059669 100%);
   color: white;
 }
 
@@ -93,7 +94,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .control-btn.secondary {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, var(--color-accent-primary) 0%, #4f46e5 100%);
   color: white;
 }
 
@@ -115,13 +116,13 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .speed-btn:hover {
-  border-color: #6366f1;
+  border-color: var(--color-accent-primary);
   color: var(--color-text);
 }
 
 .speed-btn.active {
-  background: #6366f1;
-  border-color: #6366f1;
+  background: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
   color: white;
 }
 
@@ -129,12 +130,13 @@ input[type="range"]::-webkit-slider-thumb {
   width: 100%;
   min-height: 450px;
   padding: 20px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 1px solid var(--color-border);
 }
 
 .tree-visualization svg {
@@ -144,9 +146,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 .traversal-result {
   padding: 16px 24px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
 }
 
 .result-label {
@@ -168,7 +171,7 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, var(--color-bar-sorted) 0%, #059669 100%);
   border-radius: 6px;
   color: white;
   font-weight: 600;
@@ -182,9 +185,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 .message-box {
   padding: 16px 24px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
 }
 
 .message-box p {
@@ -196,9 +200,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 .info-box {
   padding: 20px 24px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
 }
 
 .info-box h4 {
@@ -222,7 +227,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .traversal-type strong {
   display: block;
-  color: #818cf8;
+  color: var(--color-accent-primary);
   font-size: 13px;
   margin-bottom: 4px;
 }

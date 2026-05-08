@@ -4,9 +4,10 @@
   justify-content: center;
   gap: 32px;
   padding: 20px 32px;
-  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
 }
 
 .stat-item {
@@ -23,7 +24,7 @@
   height: 48px;
   border-radius: 12px;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(99, 102, 241, 0.1) 100%);
-  color: #818cf8;
+  color: var(--color-accent-primary);
 }
 
 .stat-content {

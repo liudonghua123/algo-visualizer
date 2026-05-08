@@ -8,14 +8,38 @@ export default function Header() {
   const { t } = useTranslation();
 
   return (
-    <header className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-gray-800 dark:to-gray-900 shadow-lg">
+    <header 
+      className="shadow-lg"
+      style={{ 
+        background: 'linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%)',
+        borderBottom: '1px solid var(--color-border)'
+      }}
+    >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg group-hover:bg-white/30 transition-all duration-300">
-              <Code2 className="w-6 h-6 text-white" />
+            <div 
+              className="p-2 rounded-lg transition-all duration-300"
+              style={{ 
+                background: 'rgba(99, 102, 241, 0.2)',
+                backdropFilter: 'blur(8px)'
+              }}
+            >
+              <Code2 
+                className="w-6 h-6" 
+                style={{ color: 'var(--color-text)' }}
+              />
             </div>
-            <h1 className="text-xl md:text-2xl font-bold text-white tracking-tight">
+            <h1 
+              className="text-xl md:text-2xl font-bold tracking-tight"
+              style={{ 
+                color: 'var(--color-text)',
+                background: 'linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #a855f7 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
               {t('common.title')}
             </h1>
           </Link>

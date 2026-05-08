@@ -2,13 +2,14 @@
   width: 100%;
   min-height: 400px;
   padding: 20px;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  background: var(--color-bg-card);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow-x: auto;
+  border: 1px solid var(--color-border);
 }
 
 .stack-container,
@@ -29,7 +30,7 @@
 
 .structure-label {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--color-text-muted);
   font-weight: 600;
 }
 
@@ -47,7 +48,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, var(--color-accent-primary) 0%, #4f46e5 100%);
   border-radius: 8px;
   color: white;
   font-weight: 600;
@@ -58,7 +59,7 @@
 .stack-node.highlighted,
 .queue-node.highlighted,
 .list-node.highlighted {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  background: linear-gradient(135deg, var(--color-bar-comparing) 0%, #d97706 100%);
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
   transform: scale(1.05);
 }
@@ -109,7 +110,7 @@
 
 .list-arrow {
   font-size: 24px;
-  color: #818cf8;
+  color: var(--color-accent-primary);
   font-weight: bold;
 }
 

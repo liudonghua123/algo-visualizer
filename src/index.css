@@ -6,11 +6,11 @@
 
 :root {
   --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f1f5f9;
+  --color-bg-secondary: #f8fafc;
   --color-bg-card: #ffffff;
-  --color-bg-hover: #e2e8f0;
+  --color-bg-hover: #f1f5f9;
   --color-text: #0f172a;
-  --color-text-muted: #475569;
+  --color-text-muted: #64748b;
   --color-text-light: #94a3b8;
   --color-border: #e2e8f0;
   --color-bar-default: #6366f1;
@@ -18,6 +18,8 @@
   --color-bar-swapping: #ec4899;
   --color-bar-sorted: #10b981;
   --color-bar-pivot: #a855f7;
+  --color-accent-primary: #6366f1;
+  --color-accent-secondary: #818cf8;
   --spacing-unit: 8px;
   --border-radius: 12px;
   --transition-speed: 200ms;
@@ -40,6 +42,8 @@
   --color-bar-swapping: #ec4899;
   --color-bar-sorted: #10b981;
   --color-bar-pivot: #a855f7;
+  --color-accent-primary: #818cf8;
+  --color-accent-secondary: #6366f1;
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
