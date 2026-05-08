@@ -1,0 +1,130 @@
+.sorting-visualizer {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.visualizer-header {
+  text-align: center;
+  padding: 20px;
+}
+
+.visualizer-title {
+  font-size: 48px;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0 0 16px 0;
+  background: linear-gradient(135deg, #818cf8 0%, #6366f1 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+
+.visualizer-subtitle {
+  font-size: 16px;
+  color: #94a3b8;
+  margin: 0;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.visualizer-content {
+  display: grid;
+  grid-template-columns: 1fr 450px;
+  gap: 32px;
+  align-items: start;
+}
+
+.visualizer-main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.visualizer-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 20px;
+}
+
+.code-language-toggle {
+  display: flex;
+  gap: 8px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.language-button {
+  flex: 1;
+  padding: 10px 20px;
+  border: 2px solid transparent;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.language-button:hover {
+  color: #f1f5f9;
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.language-button.active {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+@media (max-width: 1200px) {
+  .visualizer-content {
+    grid-template-columns: 1fr;
+  }
+
+  .visualizer-sidebar {
+    position: static;
+    order: -1;
+  }
+
+  .code-language-toggle {
+    max-width: 450px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sorting-visualizer {
+    padding: 20px 16px;
+    gap: 20px;
+  }
+
+  .visualizer-title {
+    font-size: 32px;
+  }
+
+  .visualizer-subtitle {
+    font-size: 14px;
+  }
+
+  .visualizer-content {
+    gap: 20px;
+  }
+
+  .visualizer-main {
+    gap: 20px;
+  }
+}

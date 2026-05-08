@@ -1,0 +1,131 @@
+.data-structure-visualizer {
+  width: 100%;
+  min-height: 400px;
+  padding: 20px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.stack-container,
+.queue-container,
+.linked-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.structure-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+}
+
+.structure-label {
+  font-size: 14px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.stack-node,
+.queue-node,
+.list-node {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.stack-node.highlighted,
+.queue-node.highlighted,
+.list-node.highlighted {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+  transform: scale(1.05);
+}
+
+.node-value {
+  font-size: 18px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.node-index {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-left: 12px;
+}
+
+.queue {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.queue-node {
+  flex-direction: column;
+  gap: 4px;
+  min-width: 80px;
+}
+
+.linked-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.list-node {
+  flex-direction: column;
+  gap: 8px;
+  min-width: 80px;
+}
+
+.node-next {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.list-arrow {
+  font-size: 24px;
+  color: #818cf8;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .data-structure-visualizer {
+    min-height: 300px;
+    padding: 16px;
+  }
+
+  .stack-node,
+  .queue-node,
+  .list-node {
+    padding: 12px 16px;
+  }
+
+  .node-value {
+    font-size: 16px;
+  }
+}
