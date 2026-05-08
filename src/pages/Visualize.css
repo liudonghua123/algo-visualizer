@@ -76,6 +76,82 @@
   border: 1px solid rgba(99, 102, 241, 0.2);
 }
 
+.details-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 2px solid #6366f1;
+  border-radius: 8px;
+  color: #a5b4fc;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.details-toggle:hover {
+  background: rgba(99, 102, 241, 0.2);
+  color: #f1f5f9;
+}
+
+.algorithm-details {
+  margin-top: 24px;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.detail-section {
+  margin-bottom: 20px;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.detail-section h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #a5b4fc;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-section h3::before {
+  content: '📖';
+  font-size: 14px;
+}
+
+.detail-section p {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.detail-section ol {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.detail-section ol li {
+  font-size: 14px;
+  color: #94a3b8;
+  line-height: 1.8;
+  margin-bottom: 6px;
+}
+
+.detail-section ol li::marker {
+  color: #6366f1;
+  font-weight: bold;
+}
+
 .visualize-content {
   max-width: 1400px;
   margin: 0 auto;
@@ -101,5 +177,18 @@
   .visualize-meta {
     flex-direction: column;
     gap: 12px;
+  }
+
+  .algorithm-details {
+    padding: 16px;
+  }
+
+  .detail-section h3 {
+    font-size: 14px;
+  }
+
+  .detail-section p,
+  .detail-section ol li {
+    font-size: 13px;
   }
 }

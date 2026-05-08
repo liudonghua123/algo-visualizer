@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SearchStep } from '../algorithms/searchTypes';
 import { linearSearch, binarySearch, generateSortedArray } from '../algorithms/searchAlgorithms';
 import './SearchVisualizerPage.css';
@@ -8,6 +9,7 @@ interface SearchVisualizerPageProps {
 }
 
 const SearchVisualizerPage: React.FC<SearchVisualizerPageProps> = ({ algorithmId }) => {
+  const { t } = useTranslation();
   const [array, setArray] = useState<number[]>(() => generateSortedArray(20));
   const [target, setTarget] = useState<number>(0);
   const [currentStep, setCurrentStep] = useState<SearchStep | null>(null);
@@ -80,36 +82,31 @@ const SearchVisualizerPage: React.FC<SearchVisualizerPageProps> = ({ algorithmId
     reset();
   }, [algorithmId, reset]);
 
-  const getArraySize = () => {
-    const sortedArray = [...array].sort((a, b) => a - b);
-    return sortedArray.length;
-  };
-
   const sortedArray = [...array].sort((a, b) => a - b);
 
   return (
     <div className="search-page">
       <div className="search-controls">
         <div className="control-group">
-          <label>搜索类型:</label>
+          <label>{t('search.type')}:</label>
           <button
             className={`toggle-btn ${searchType === 'linear' ? 'active' : ''}`}
             onClick={() => setSearchType('linear')}
             disabled={isRunning}
           >
-            线性查找
+            {t('search.linearSearch.name')}
           </button>
           <button
             className={`toggle-btn ${searchType === 'binary' ? 'active' : ''}`}
             onClick={() => setSearchType('binary')}
             disabled={isRunning}
           >
-            二分查找
+            {t('search.binarySearch.name')}
           </button>
         </div>
 
         <div className="control-group">
-          <label>目标值: {target}</label>
+          <label>{t('common.targetValue')}: {target}</label>
           <input
             type="range"
             min="1"
@@ -125,38 +122,38 @@ const SearchVisualizerPage: React.FC<SearchVisualizerPageProps> = ({ algorithmId
             className="control-btn primary"
             onClick={isRunning ? stopSearch : runSearch}
           >
-            {isRunning ? '暂停' : '开始搜索'}
+            {isRunning ? t('common.pause') : t('search.start')}
           </button>
           <button className="control-btn secondary" onClick={reset}>
-            重置
+            {t('common.reset')}
           </button>
         </div>
 
         <div className="control-group">
-          <label>速度:</label>
+          <label>{t('common.speed')}:</label>
           <button
             className={`speed-btn ${speed === 800 ? 'active' : ''}`}
             onClick={() => setSpeed(800)}
           >
-            慢
+            {t('common.slow')}
           </button>
           <button
             className={`speed-btn ${speed === 500 ? 'active' : ''}`}
             onClick={() => setSpeed(500)}
           >
-            中
+            {t('common.medium')}
           </button>
           <button
             className={`speed-btn ${speed === 200 ? 'active' : ''}`}
             onClick={() => setSpeed(200)}
           >
-            快
+            {t('common.fast')}
           </button>
         </div>
       </div>
 
       <div className="search-array-container">
-        <div className="array-label">数组元素:</div>
+        <div className="array-label">{t('search.arrayElements')}:</div>
         <div className="search-array">
           {sortedArray.map((value, index) => {
             let className = 'search-item';
@@ -193,17 +190,17 @@ const SearchVisualizerPage: React.FC<SearchVisualizerPageProps> = ({ algorithmId
       </div>
 
       <div className="message-box">
-        <p>{currentStep?.message || '设置目标值后点击"开始搜索"'}</p>
+        <p>{currentStep?.message || t('search.setTarget')}</p>
       </div>
 
       {searchType === 'binary' && (
         <div className="info-box">
-          <h4>二分查找说明</h4>
-          <p>二分查找要求数组有序。每次将搜索范围折半，快速定位目标元素。</p>
+          <h4>{t('search.binarySearch.name')}</h4>
+          <p>{t('search.binarySearch.info')}</p>
           <ul>
-            <li>时间复杂度: O(log n)</li>
-            <li>空间复杂度: O(1)</li>
-            <li>前提条件: 数组必须有序</li>
+            <li>{t('common.timeComplexity')}: O(log n)</li>
+            <li>{t('common.spaceComplexity')}: O(1)</li>
+            <li>{t('search.prerequisite')}</li>
           </ul>
         </div>
       )}

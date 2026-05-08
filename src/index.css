@@ -5,17 +5,24 @@
 @tailwind utilities;
 
 :root {
-  --color-bg-primary: #0f172a;
-  --color-bg-secondary: #1e293b;
+  --color-bg-primary: #f8fafc;
+  --color-bg-secondary: #ffffff;
+  --color-text: #1e293b;
+  --color-text-muted: #64748b;
   --color-bar-default: #6366f1;
   --color-bar-comparing: #f59e0b;
   --color-bar-swapping: #ec4899;
   --color-bar-sorted: #10b981;
-  --color-text: #f1f5f9;
-  --color-text-muted: #94a3b8;
   --spacing-unit: 8px;
   --border-radius: 8px;
   --transition-speed: 200ms;
+}
+
+.dark {
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
 }
 
 * {
@@ -32,6 +39,7 @@ body {
   background: var(--color-bg-primary);
   color: var(--color-text);
   line-height: 1.6;
+  transition: background-color var(--transition-speed) ease-in-out, color var(--transition-speed) ease-in-out;
 }
 
 code,
@@ -61,6 +69,7 @@ select {
 
 ::-webkit-scrollbar-track {
   background: var(--color-bg-secondary);
+  transition: background-color var(--transition-speed) ease-in-out;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -74,7 +83,7 @@ select {
 
 ::selection {
   background: rgba(99, 102, 241, 0.3);
-  color: #f1f5f9;
+  color: var(--color-text);
 }
 
 html {

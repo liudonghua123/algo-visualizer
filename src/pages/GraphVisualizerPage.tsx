@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import GraphVisualizer from '../components/GraphVisualizer';
 import { Graph, GraphNode, GraphEdge, GraphStep } from '../algorithms/graphTypes';
 import { createRandomGraph, bfs, dfs, dijkstra } from '../algorithms/graphAlgorithms';
@@ -9,6 +10,7 @@ interface GraphVisualizerPageProps {
 }
 
 const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }) => {
+  const { t } = useTranslation();
   const [graph, setGraph] = useState<Graph>(() => createRandomGraph(8));
   const [currentStep, setCurrentStep] = useState<GraphStep | null>(null);
   const [message, setMessage] = useState<string>('');
@@ -26,10 +28,10 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
     const newGraph = createRandomGraph(nodeCount);
     setGraph(newGraph);
     setCurrentStep(null);
-    setMessage('点击"开始"运行算法');
+    setMessage(t('graph.message.initial'));
     setIsRunning(false);
     generatorRef.current = null;
-  }, [nodeCount]);
+  }, [nodeCount, t]);
 
   const runAlgorithm = useCallback(() => {
     if (!generatorRef.current) {
@@ -66,7 +68,7 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
 
       if (result.done) {
         setIsRunning(false);
-        setMessage('算法执行完成');
+        setMessage(t('graph.message.completed'));
         return;
       }
 
@@ -85,7 +87,7 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isRunning, speed]);
+  }, [isRunning, speed, t]);
 
   useEffect(() => {
     reset();
@@ -123,15 +125,15 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
             className="control-btn primary"
             onClick={isRunning ? stopAlgorithm : runAlgorithm}
           >
-            {isRunning ? '暂停' : '开始'}
+            {isRunning ? t('common.pause') : t('graph.start')}
           </button>
           <button className="control-btn secondary" onClick={reset}>
-            重置
+            {t('common.reset')}
           </button>
         </div>
 
         <div className="control-group">
-          <label>节点数量: {nodeCount}</label>
+          <label>{t('graph.nodeCount')}: {nodeCount}</label>
           <input
             type="range"
             min="4"
@@ -143,24 +145,24 @@ const GraphVisualizerPage: React.FC<GraphVisualizerPageProps> = ({ algorithmId }
         </div>
 
         <div className="control-group">
-          <label>速度:</label>
+          <label>{t('common.speed')}:</label>
           <button
             className={`speed-btn ${speed === 800 ? 'active' : ''}`}
             onClick={() => setSpeed(800)}
           >
-            慢
+            {t('common.slow')}
           </button>
           <button
             className={`speed-btn ${speed === 500 ? 'active' : ''}`}
             onClick={() => setSpeed(500)}
           >
-            中
+            {t('common.medium')}
           </button>
           <button
             className={`speed-btn ${speed === 200 ? 'active' : ''}`}
             onClick={() => setSpeed(200)}
           >
-            快
+            {t('common.fast')}
           </button>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Play, Pause, RotateCcw, SkipForward } from 'lucide-react';
 import { AlgorithmName, ALGORITHMS } from '../algorithms/types';
 import './Controls.css';
@@ -32,37 +33,38 @@ const Controls: React.FC<ControlsProps> = ({
   onSpeedChange,
   onSizeChange,
 }) => {
+  const { t } = useTranslation();
   const algorithms = Object.keys(ALGORITHMS) as AlgorithmName[];
 
   const speedOptions = [
-    { value: 500, label: '慢速' },
-    { value: 200, label: '中速' },
-    { value: 50, label: '快速' },
+    { value: 500, label: t('common.slow') },
+    { value: 200, label: t('common.medium') },
+    { value: 50, label: t('common.fast') },
   ];
 
   return (
     <div className="controls">
       <div className="control-section">
-        <h3 className="control-section-title">控制</h3>
+        <h3 className="control-section-title">{t('common.controls')}</h3>
         <div className="control-buttons">
           {!sorting ? (
             <button
               className="control-button control-button-primary"
               onClick={onPlay}
               disabled={completed}
-              aria-label="开始排序"
+              aria-label={t('common.start')}
             >
               <Play size={20} />
-              <span>播放</span>
+              <span>{t('common.start')}</span>
             </button>
           ) : (
             <button
               className="control-button control-button-warning"
               onClick={onPause}
-              aria-label="暂停排序"
+              aria-label={t('common.pause')}
             >
               <Pause size={20} />
-              <span>暂停</span>
+              <span>{t('common.pause')}</span>
             </button>
           )}
 
@@ -70,32 +72,32 @@ const Controls: React.FC<ControlsProps> = ({
             className="control-button control-button-secondary"
             onClick={onStep}
             disabled={sorting || completed}
-            aria-label="单步执行"
+            aria-label={t('common.step')}
           >
             <SkipForward size={20} />
-            <span>单步</span>
+            <span>{t('common.step')}</span>
           </button>
 
           <button
             className="control-button control-button-danger"
             onClick={onReset}
-            aria-label="重置"
+            aria-label={t('common.reset')}
           >
             <RotateCcw size={20} />
-            <span>重置</span>
+            <span>{t('common.reset')}</span>
           </button>
         </div>
       </div>
 
       <div className="control-section">
-        <h3 className="control-section-title">速度</h3>
+        <h3 className="control-section-title">{t('common.speed')}</h3>
         <div className="speed-buttons">
           {speedOptions.map((option) => (
             <button
               key={option.value}
               className={`speed-button ${speed === option.value ? 'active' : ''}`}
               onClick={() => onSpeedChange(option.value)}
-              aria-label={`速度: ${option.label}`}
+              aria-label={`${t('common.speed')}: ${option.label}`}
             >
               {option.label}
             </button>
@@ -104,7 +106,7 @@ const Controls: React.FC<ControlsProps> = ({
       </div>
 
       <div className="control-section">
-        <h3 className="control-section-title">数组大小: {arraySize}</h3>
+        <h3 className="control-section-title">{t('common.size')}: {arraySize}</h3>
         <input
           type="range"
           min="10"
@@ -113,12 +115,12 @@ const Controls: React.FC<ControlsProps> = ({
           onChange={(e) => onSizeChange(Number(e.target.value))}
           className="size-slider"
           disabled={sorting}
-          aria-label="数组大小"
+          aria-label={t('common.size')}
         />
       </div>
 
       <div className="control-section control-section-wide">
-        <h3 className="control-section-title">算法选择</h3>
+        <h3 className="control-section-title">{t('common.algorithm')}</h3>
         <div className="algorithm-buttons">
           {algorithms.map((algo) => (
             <button

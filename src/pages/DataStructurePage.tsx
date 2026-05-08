@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import DataStructureVisualizer from '../components/DataStructureVisualizer';
 import { StackNode, QueueNode, LinkedListNode, DataStructureStep } from '../algorithms/dataStructureTypes';
 import { stackOperations, queueOperations, linkedListOperations } from '../algorithms/dataStructureOperations';
@@ -9,6 +10,7 @@ interface DataStructurePageProps {
 }
 
 const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) => {
+  const { t } = useTranslation();
   const [data, setData] = useState<StackNode[] | QueueNode[] | LinkedListNode[]>([]);
   const [highlightedIndices, setHighlightedIndices] = useState<number[]>([]);
   const [message, setMessage] = useState<string>('');
@@ -40,11 +42,11 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
     }
     setData([]);
     setHighlightedIndices([]);
-    setMessage('添加操作后点击"运行"执行');
+    setMessage(t('datastructure.message.initial'));
     setIsRunning(false);
     setOperations([]);
     generatorRef.current = null;
-  }, []);
+  }, [t]);
 
   const addOperation = (op: string) => {
     setOperations((prev) => [...prev, op]);
@@ -52,7 +54,7 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
 
   const runOperations = useCallback(() => {
     if (operations.length === 0) {
-      setMessage('请先添加操作');
+      setMessage(t('datastructure.message.noOperations'));
       return;
     }
 
@@ -71,7 +73,7 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
     }
 
     setIsRunning(true);
-  }, [operations, algorithmId]);
+  }, [operations, algorithmId, t]);
 
   const stopExecution = useCallback(() => {
     setIsRunning(false);
@@ -121,7 +123,7 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
             <div className="input-group">
               <input
                 type="number"
-                placeholder="值"
+                placeholder={t('common.inputValue')}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 disabled={isRunning}
@@ -136,7 +138,7 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
                 }}
                 disabled={isRunning}
               >
-                入栈
+                {t('common.push')}
               </button>
             </div>
             <button
@@ -144,14 +146,14 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
               onClick={() => addOperation('pop')}
               disabled={isRunning}
             >
-              出栈
+              {t('common.pop')}
             </button>
             <button
               className="action-btn secondary"
               onClick={() => addOperation('peek')}
               disabled={isRunning}
             >
-              查看栈顶
+              {t('datastructure.stack.peek')}
             </button>
           </>
         );
@@ -161,7 +163,7 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
             <div className="input-group">
               <input
                 type="number"
-                placeholder="值"
+                placeholder={t('common.inputValue')}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 disabled={isRunning}
@@ -176,7 +178,7 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
                 }}
                 disabled={isRunning}
               >
-                入队
+                {t('common.enqueue')}
               </button>
             </div>
             <button
@@ -184,14 +186,14 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
               onClick={() => addOperation('dequeue')}
               disabled={isRunning}
             >
-              出队
+              {t('common.dequeue')}
             </button>
             <button
               className="action-btn secondary"
               onClick={() => addOperation('peek')}
               disabled={isRunning}
             >
-              查看队首
+              {t('datastructure.queue.front')}
             </button>
           </>
         );
@@ -201,14 +203,14 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
             <div className="input-group">
               <input
                 type="number"
-                placeholder="值"
+                placeholder={t('common.inputValue')}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 disabled={isRunning}
               />
               <input
                 type="number"
-                placeholder="位置(可选)"
+                placeholder={t('datastructure.linkedList.position')}
                 value={positionValue}
                 onChange={(e) => setPositionValue(e.target.value)}
                 disabled={isRunning}
@@ -224,13 +226,13 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
                 }}
                 disabled={isRunning}
               >
-                插入
+                {t('common.insert')}
               </button>
             </div>
             <div className="input-group">
               <input
                 type="number"
-                placeholder="删除位置"
+                placeholder={t('datastructure.linkedList.deletePosition')}
                 value={positionValue}
                 onChange={(e) => setPositionValue(e.target.value)}
                 disabled={isRunning}
@@ -245,13 +247,13 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
                 }}
                 disabled={isRunning}
               >
-                删除
+                {t('common.delete')}
               </button>
             </div>
             <div className="input-group">
               <input
                 type="number"
-                placeholder="搜索值"
+                placeholder={t('common.search')}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 disabled={isRunning}
@@ -266,7 +268,7 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
                 }}
                 disabled={isRunning}
               >
-                搜索
+                {t('common.search')}
               </button>
             </div>
           </>
@@ -288,39 +290,39 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
             className="control-btn primary"
             onClick={isRunning ? stopExecution : runOperations}
           >
-            {isRunning ? '暂停' : '运行'}
+            {isRunning ? t('common.pause') : t('common.start')}
           </button>
           <button className="control-btn secondary" onClick={reset}>
-            重置
+            {t('common.reset')}
           </button>
         </div>
 
         <div className="control-group">
-          <label>速度:</label>
+          <label>{t('common.speed')}:</label>
           <button
             className={`speed-btn ${speed === 800 ? 'active' : ''}`}
             onClick={() => setSpeed(800)}
           >
-            慢
+            {t('common.slow')}
           </button>
           <button
             className={`speed-btn ${speed === 500 ? 'active' : ''}`}
             onClick={() => setSpeed(500)}
           >
-            中
+            {t('common.medium')}
           </button>
           <button
             className={`speed-btn ${speed === 200 ? 'active' : ''}`}
             onClick={() => setSpeed(200)}
           >
-            快
+            {t('common.fast')}
           </button>
         </div>
       </div>
 
       {operations.length > 0 && (
         <div className="operations-list">
-          <h4>操作序列:</h4>
+          <h4>{t('datastructure.operations')}:</h4>
           <div className="operations-tags">
             {operations.map((op, index) => (
               <span key={index} className="operation-tag">

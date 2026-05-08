@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TreeNode, TreeStep } from '../algorithms/treeTypes';
 import { createRandomBinaryTree, preorderTraversal, inorderTraversal, postorderTraversal } from '../algorithms/treeTraversal';
 import './TreeVisualizerPage.css';
@@ -8,6 +9,7 @@ interface TreeVisualizerPageProps {
 }
 
 const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) => {
+  const { t } = useTranslation();
   const [tree, setTree] = useState<TreeNode | null>(() => createRandomBinaryTree(3));
   const [currentStep, setCurrentStep] = useState<TreeStep | null>(null);
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -181,32 +183,32 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
     <div className="tree-page">
       <div className="tree-controls">
         <div className="control-group">
-          <label>遍历类型:</label>
+          <label>{t('tree.traversalType')}:</label>
           <button
             className={`toggle-btn ${traversalType === 'preorder' ? 'active' : ''}`}
             onClick={() => setTraversalType('preorder')}
             disabled={isRunning}
           >
-            前序 (根-左-右)
+            {t('tree.binaryTree.preorder.name')} ({t('tree.binaryTree.preorder.order')})
           </button>
           <button
             className={`toggle-btn ${traversalType === 'inorder' ? 'active' : ''}`}
             onClick={() => setTraversalType('inorder')}
             disabled={isRunning}
           >
-            中序 (左-根-右)
+            {t('tree.binaryTree.inorder.name')} ({t('tree.binaryTree.inorder.order')})
           </button>
           <button
             className={`toggle-btn ${traversalType === 'postorder' ? 'active' : ''}`}
             onClick={() => setTraversalType('postorder')}
             disabled={isRunning}
           >
-            后序 (左-右-根)
+            {t('tree.binaryTree.postorder.name')} ({t('tree.binaryTree.postorder.order')})
           </button>
         </div>
 
         <div className="control-group">
-          <label>树深度: {depth}</label>
+          <label>{t('tree.depth')}: {depth}</label>
           <input
             type="range"
             min="2"
@@ -222,32 +224,32 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
             className="control-btn primary"
             onClick={isRunning ? stopTraversal : runTraversal}
           >
-            {isRunning ? '暂停' : '开始遍历'}
+            {isRunning ? t('common.pause') : t('tree.start')}
           </button>
           <button className="control-btn secondary" onClick={reset}>
-            重置树
+            {t('tree.reset')}
           </button>
         </div>
 
         <div className="control-group">
-          <label>速度:</label>
+          <label>{t('common.speed')}:</label>
           <button
             className={`speed-btn ${speed === 800 ? 'active' : ''}`}
             onClick={() => setSpeed(800)}
           >
-            慢
+            {t('common.slow')}
           </button>
           <button
             className={`speed-btn ${speed === 500 ? 'active' : ''}`}
             onClick={() => setSpeed(500)}
           >
-            中
+            {t('common.medium')}
           </button>
           <button
             className={`speed-btn ${speed === 200 ? 'active' : ''}`}
             onClick={() => setSpeed(200)}
           >
-            快
+            {t('common.fast')}
           </button>
         </div>
       </div>
@@ -256,7 +258,7 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
 
       {currentStep?.traversal && (
         <div className="traversal-result">
-          <div className="result-label">遍历结果:</div>
+          <div className="result-label">{t('tree.result')}:</div>
           <div className="result-sequence">
             {currentStep.traversal.map((value, index) => (
               <span key={index} className="result-item">
@@ -269,23 +271,23 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
       )}
 
       <div className="message-box">
-        <p>{currentStep?.message || '选择遍历类型后点击"开始遍历"'}</p>
+        <p>{currentStep?.message || t('tree.selectType')}</p>
       </div>
 
       <div className="info-box">
-        <h4>二叉树遍历说明</h4>
+        <h4>{t('tree.binaryTreeTraversal')}</h4>
         <div className="traversal-types">
           <div className="traversal-type">
-            <strong>前序遍历 (Preorder)</strong>
-            <p>顺序: 根节点 → 左子树 → 右子树</p>
+            <strong>{t('tree.binaryTree.preorder.name')}</strong>
+            <p>{t('tree.binaryTree.preorder.description')}</p>
           </div>
           <div className="traversal-type">
-            <strong>中序遍历 (Inorder)</strong>
-            <p>顺序: 左子树 → 根节点 → 右子树</p>
+            <strong>{t('tree.binaryTree.inorder.name')}</strong>
+            <p>{t('tree.binaryTree.inorder.description')}</p>
           </div>
           <div className="traversal-type">
-            <strong>后序遍历 (Postorder)</strong>
-            <p>顺序: 左子树 → 右子树 → 根节点</p>
+            <strong>{t('tree.binaryTree.postorder.name')}</strong>
+            <p>{t('tree.binaryTree.postorder.description')}</p>
           </div>
         </div>
       </div>

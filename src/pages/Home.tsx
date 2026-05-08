@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { CATEGORIES, ALGORITHMS } from '../algorithms/registry';
 import './Home.css';
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleAlgorithmClick = (algorithmId: string) => {
     navigate(`/visualize/${algorithmId}`);
@@ -13,10 +15,8 @@ const Home: React.FC = () => {
   return (
     <div className="home">
       <header className="home-header">
-        <h1 className="home-title">算法可视化平台</h1>
-        <p className="home-subtitle">
-          通过交互式动画深入理解各种算法和数据结构的工作原理
-        </p>
+        <h1 className="home-title">{t('home.title')}</h1>
+        <p className="home-subtitle">{t('home.subtitle')}</p>
       </header>
 
       <div className="categories">
@@ -30,8 +30,12 @@ const Home: React.FC = () => {
               <div className="category-header">
                 <span className="category-icon">{category.icon}</span>
                 <div className="category-info">
-                  <h2 className="category-title">{category.name}</h2>
-                  <p className="category-description">{category.description}</p>
+                  <h2 className="category-title">
+                    {t(`categories.${category.id}`)}
+                  </h2>
+                  <p className="category-description">
+                    {t(`${category.id}.description`)}
+                  </p>
                 </div>
               </div>
 
@@ -45,14 +49,18 @@ const Home: React.FC = () => {
                   >
                     <div className="algorithm-icon">{algorithm.icon}</div>
                     <div className="algorithm-info">
-                      <h3 className="algorithm-name">{algorithm.name}</h3>
-                      <p className="algorithm-description">{algorithm.description}</p>
+                      <h3 className="algorithm-name">
+                        {t(`${algorithm.category}.${algorithm.id}.name`)}
+                      </h3>
+                      <p className="algorithm-description">
+                        {t(`${algorithm.category}.${algorithm.id}.description`)}
+                      </p>
                       <div className="algorithm-complexity">
                         <span className="complexity-item">
-                          时间: {algorithm.timeComplexity}
+                          {t('common.timeComplexity')}: {algorithm.timeComplexity}
                         </span>
                         <span className="complexity-item">
-                          空间: {algorithm.spaceComplexity}
+                          {t('common.spaceComplexity')}: {algorithm.spaceComplexity}
                         </span>
                       </div>
                     </div>

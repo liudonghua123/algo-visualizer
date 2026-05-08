@@ -1,0 +1,509 @@
+{
+  "common": {
+    "title": "Algorithm Visualization Platform",
+    "back": "Back",
+    "start": "Start",
+    "pause": "Pause",
+    "reset": "Reset",
+    "speed": "Speed",
+    "slow": "Slow",
+    "medium": "Medium",
+    "fast": "Fast",
+    "size": "Data Size",
+    "generate": "Generate",
+    "step": "Step",
+    "auto": "Auto",
+    "next": "Next",
+    "previous": "Previous",
+    "finish": "Finish",
+    "running": "Running",
+    "completed": "Completed",
+    "ready": "Ready",
+    "paused": "Paused",
+    "comparisons": "Comparisons",
+    "swaps": "Swaps",
+    "timeComplexity": "Time Complexity",
+    "spaceComplexity": "Space Complexity",
+    "complexity": "Complexity",
+    "description": "Description",
+    "steps": "Steps",
+    "principle": "Principle",
+    "scenarios": "Use Cases",
+    "example": "Example",
+    "unsupported": "This algorithm type is not supported yet",
+    "inputValue": "Input Value",
+    "targetValue": "Target Value",
+    "findTarget": "Find Target",
+    "operation": "Operation",
+    "push": "Push",
+    "pop": "Pop",
+    "enqueue": "Enqueue",
+    "dequeue": "Dequeue",
+    "insert": "Insert",
+    "delete": "Delete",
+    "search": "Search",
+    "traverse": "Traverse",
+    "visualize": "Visualize",
+    "controls": "Controls",
+    "statistics": "Statistics",
+    "code": "Code"
+  },
+  "home": {
+    "title": "Algorithm Visualization Platform",
+    "subtitle": "Understand how various algorithms and data structures work through interactive animations",
+    "selectAlgorithm": "Select an algorithm to start learning",
+    "learnMore": "Learn More"
+  },
+  "sorting": {
+    "title": "Sorting Algorithms",
+    "description": "Visualization demonstrations of various classic sorting algorithms",
+    "bubbleSort": {
+      "name": "Bubble Sort",
+      "description": "Repeatedly compares adjacent elements and swaps them if they are in the wrong order, gradually moving larger elements to the end of the array",
+      "principle": "Bubble Sort is one of the simplest sorting algorithms. It repeatedly traverses the array to be sorted, compares adjacent elements, and swaps them if they are in the wrong order. After each pass, the largest element will be moved to its correct position, gradually floating up like bubbles in water.",
+      "steps": [
+        "Start from the first element of the array and compare adjacent elements",
+        "If the previous element is greater than the next, swap them",
+        "Move to the next pair of adjacent elements and repeat the comparison and swap process",
+        "After completing one pass, the largest element has been moved to the end of the array",
+        "Repeat the above process for all elements except the last one",
+        "Continue this process until the entire array is sorted"
+      ],
+      "timeComplexity": "Average time complexity is O(n²), worst case (reverse order) is O(n²), best case (already sorted) is O(n)",
+      "spaceComplexity": "Space complexity is O(1), an in-place sorting algorithm",
+      "scenarios": "Suitable for small data sets or nearly sorted data. Due to its simple implementation, it's often used for teaching demonstrations. Easy to understand and debug.",
+      "example": "For array [5, 2, 8, 1, 9]: First pass compare 5 and 2 (swap) → [2, 5, 8, 1, 9], compare 5 and 8 (no swap), compare 8 and 1 (swap) → [2, 5, 1, 8, 9], compare 8 and 9 (no swap)"
+    },
+    "selectionSort": {
+      "name": "Selection Sort",
+      "description": "Select the minimum element from the unsorted part and place it at the end of the sorted part",
+      "principle": "Selection Sort works by finding the minimum (or maximum) element in the unsorted sequence and placing it at the end of the sorted sequence. It first assumes the first element is the minimum, then compares it with each subsequent element, records the position of the minimum, and after one pass, swaps the found minimum with the current position.",
+      "steps": [
+        "Find the index of the minimum element in the unsorted array",
+        "Swap this minimum element with the first element of the unsorted part",
+        "Expand the sorted part by one element",
+        "Repeat the above process for the remaining unsorted part",
+        "Continue until all elements are sorted"
+      ],
+      "timeComplexity": "Time complexity is always O(n²), regardless of the initial state of the array",
+      "spaceComplexity": "Space complexity is O(1), an in-place sorting algorithm",
+      "scenarios": "Suitable for simple scenarios or small-scale data sorting. When swap costs are high, it's better than bubble sort due to fewer swaps.",
+      "example": "Array [64, 25, 12, 22, 11]: First pass finds minimum value 11, swaps to position 0 → [11, 25, 12, 22, 64]"
+    },
+    "insertionSort": {
+      "name": "Insertion Sort",
+      "description": "Insert elements into the correct position in the sorted part, similar to organizing playing cards",
+      "principle": "Insertion Sort works similarly to organizing playing cards. The array is divided into a sorted part and an unsorted part. Each time an element is taken from the unsorted part, it's inserted into its correct position in the sorted part. It assumes the first element is sorted, then processes remaining elements one by one.",
+      "steps": [
+        "Treat the first element of the array as the sorted part",
+        "Take the first element from the unsorted part",
+        "Scan the sorted part from right to left",
+        "Move elements in the sorted part that are greater than the taken element backward",
+        "Insert the taken element into its correct position",
+        "Repeat until all elements have been processed"
+      ],
+      "timeComplexity": "Best case O(n) (already sorted), average and worst case O(n²)",
+      "spaceComplexity": "Space complexity is O(1), an in-place sorting algorithm",
+      "scenarios": "Very efficient when data is nearly sorted or when data size is small. Suitable for online sorting (continuously receiving new data). Often used as a subprocess in hybrid sorting algorithms.",
+      "example": "Array [12, 11, 13, 5, 6]: When processing 11, compare with 12 and swap → [11, 12, 13, 5, 6], when processing 13, position unchanged"
+    },
+    "quickSort": {
+      "name": "Quick Sort",
+      "description": "Select a pivot element, partition the array into two parts, and recursively sort",
+      "principle": "Quick Sort uses a divide-and-conquer strategy. Choose a pivot element (usually first, last, or middle element), partition the array into two parts: elements less than the pivot on the left, elements greater than or equal to the pivot on the right. Then recursively apply the same operation to both parts.",
+      "steps": [
+        "Select a pivot element",
+        "Rearrange the array so elements less than pivot are on the left, elements greater than or equal to pivot are on the right",
+        "Recursively apply Quick Sort to the left part",
+        "Recursively apply Quick Sort to the right part",
+        "Stop recursion when subarray size is 0 or 1"
+      ],
+      "timeComplexity": "Average O(n log n), worst case O(n²) (when data is nearly sorted and first element is chosen as pivot)",
+      "spaceComplexity": "Space complexity is O(log n) (recursion stack depth)",
+      "scenarios": "Suitable for large-scale data sorting, the most commonly used sorting algorithm in practice. Worst-case scenarios can be avoided by choosing pivots wisely (random or median-of-three).",
+      "example": "Array [10, 7, 8, 9, 1, 5], choosing 5 as pivot, rearranged to → [1, 5, 8, 9, 10, 7], then recursively sort [1] and [8, 9, 10, 7]"
+    },
+    "mergeSort": {
+      "name": "Merge Sort",
+      "description": "Divide-and-conquer strategy, recursively split the array and merge into a sorted array",
+      "principle": "Merge Sort uses a divide-and-conquer approach. First recursively divide the array into smallest subarrays (each containing only one element), then gradually merge these subarrays in sorted order, finally obtaining a complete sorted array.",
+      "steps": [
+        "Split the array from the middle into two subarrays",
+        "Recursively perform merge sort on both subarrays",
+        "Merge two sorted subarrays into one sorted array",
+        "Repeat the merge process until only one array remains"
+      ],
+      "timeComplexity": "Time complexity is always O(n log n), independent of the initial data state",
+      "spaceComplexity": "Space complexity is O(n), requiring additional arrays for merging results",
+      "scenarios": "Suitable for scenarios requiring stable sorting and worst-case guarantees. Very useful in external sorting (like large file sorting). Good for linked list sorting, can achieve O(n log n) time and O(1) space complexity.",
+      "example": "Array [38, 27, 43, 3, 9, 82, 10]: Split into [38, 27, 43] and [3, 9, 82, 10], continue splitting, finally merge and sort during merge"
+    },
+    "heapSort": {
+      "name": "Heap Sort",
+      "description": "Use heap data structure, first build a max heap, then extract maximum elements gradually",
+      "principle": "Heap Sort uses the heap data structure, a complete binary tree. First, build the array into a max heap (each node's value is greater than or equal to its children), then repeatedly swap the max heap root (maximum) with the heap tail element, shrink the heap size (excluding the sorted part), and finally adjust the heap to maintain max heap property.",
+      "steps": [
+        "Build the array into a max heap (heapification)",
+        "Swap the heap root (maximum) with the heap tail element",
+        "Reduce heap size by one (sorted part increases by one)",
+        "Adjust the root downward to restore max heap property",
+        "Repeat steps 2-4 until heap size is 1"
+      ],
+      "timeComplexity": "Time complexity is always O(n log n), independent of the initial data state",
+      "spaceComplexity": "Space complexity is O(1), an in-place sorting algorithm",
+      "scenarios": "Suitable for scenarios requiring O(n log n) time complexity with O(1) space complexity. Commonly used to implement priority queues. Good for memory-constrained environments.",
+      "example": "Array [4, 10, 3, 5, 1] after building max heap: [10, 5, 3, 4, 1], swap 10 and 1, adjust heap, finally get sorted array [1, 3, 4, 5, 10]"
+    }
+  },
+  "search": {
+    "title": "Search Algorithms",
+    "description": "Visualization demonstrations of common search algorithms",
+    "binarySearch": {
+      "name": "Binary Search",
+      "description": "In a sorted array, quickly locate the target element by halving the search range",
+      "principle": "Binary Search is suitable for sorted arrays. Each search halves the search range: compare the middle element with the target value. If equal, found the target. If target is smaller, continue searching in the left half. If target is larger, continue searching in the right half.",
+      "steps": [
+        "Determine the left and right boundaries of the search range",
+        "Calculate middle position: mid = (left + right) / 2",
+        "Compare middle element with target value",
+        "If equal, return middle position (found target)",
+        "If target is smaller, narrow right boundary to mid-1",
+        "If target is larger, narrow left boundary to mid+1",
+        "Repeat steps 2-6 until target is found or range is empty"
+      ],
+      "timeComplexity": "Time complexity is O(log n)",
+      "spaceComplexity": "Space complexity is O(1) (iterative) or O(log n) (recursive)",
+      "scenarios": "Suitable for static searching (ordered data with infrequent insertions/deletions). Such as dictionary lookup, database indexing, spell checking, etc.",
+      "example": "Search for target value 7 in sorted array [1, 3, 5, 7, 9, 11, 13]: mid=5 (value 9) > 7, narrow right boundary; mid=2 (value 5) < 7, expand left boundary; mid=3 (value 7), found target"
+    },
+    "linearSearch": {
+      "name": "Linear Search",
+      "description": "Traverse the array sequentially, comparing each element to find the target",
+      "principle": "Linear Search is the simplest search algorithm. Starting from the first element of the array, compare each element with the target value. If found, return the element position. If the entire array is traversed without finding, return failure.",
+      "steps": [
+        "Start from the first element of the array",
+        "Compare the current element with the target value",
+        "If equal, return current position (found target)",
+        "Move to the next element",
+        "Repeat steps 2-4 until target is found or end of array reached"
+      ],
+      "timeComplexity": "Best case O(1), average and worst case O(n)",
+      "spaceComplexity": "Space complexity is O(1)",
+      "scenarios": "Suitable for unordered or small-scale data. When data is irregular and insertions/deletions are frequent. Can also be used when search frequency is very low.",
+      "example": "Search for target value 22 in array [64, 25, 12, 22, 11]: Start comparing from index 0, 64 ≠ 22, 25 ≠ 22, 12 ≠ 22, 22 = 22, found target at index 3"
+    }
+  },
+  "tree": {
+    "title": "Tree Structures",
+    "description": "Binary trees and related operation visualizations",
+    "binaryTree": {
+      "name": "Binary Tree Traversal",
+      "description": "Pre-order, in-order, and post-order traversal of binary trees",
+      "principle": "Binary tree traversal is the foundation of tree operations, with three main methods: Pre-order (Root-Left-Right), In-order (Left-Root-Right), Post-order (Left-Right-Root). The traversal order refers to when the root node is visited.",
+      "steps": "Traversal process is recursive, each node is visited once",
+      "preorder": {
+        "name": "Pre-order Traversal",
+        "description": "Visit root first, then recursively traverse left subtree, then recursively traverse right subtree",
+        "steps": [
+          "Visit current node (root)",
+          "Recursively traverse left subtree",
+          "Recursively traverse right subtree"
+        ],
+        "principle": "Pre-order traversal visits in \"Root-Left-Right\" order. This traversal is commonly used for creating or copying binary trees and obtaining prefix expressions of trees.",
+        "scenarios": "Used for tree copying and serialization. Generate prefix expressions (like prefix notation of mathematical expressions). Create backups of directory structures."
+      },
+      "inorder": {
+        "name": "In-order Traversal",
+        "description": "First recursively traverse left subtree, then visit root, then recursively traverse right subtree",
+        "steps": [
+          "Recursively traverse left subtree",
+          "Visit current node (root)",
+          "Recursively traverse right subtree"
+        ],
+        "principle": "In-order traversal visits in \"Left-Root-Right\" order. For binary search trees, in-order traversal visits all nodes in ascending order.",
+        "scenarios": "In-order traversal of binary search tree yields sorted sequence. Obtain infix expressions from expression trees. Used in parsers for syntax analysis."
+      },
+      "postorder": {
+        "name": "Post-order Traversal",
+        "description": "First recursively traverse left subtree, then recursively traverse right subtree, then visit root",
+        "steps": [
+          "Recursively traverse left subtree",
+          "Recursively traverse right subtree",
+          "Visit current node (root)"
+        ],
+        "principle": "Post-order traversal visits in \"Left-Right-Root\" order. This ensures that all child nodes have been processed before visiting the root node.",
+        "scenarios": "Used for releasing binary trees (release children first, then parent). Calculate sizes of directories and subdirectories. Generate postfix expressions of trees."
+      }
+    }
+  },
+  "graph": {
+    "title": "Graph Algorithms",
+    "description": "Graph traversal and shortest path algorithms",
+    "bfs": {
+      "name": "Breadth-First Search",
+      "description": "Starting from the source, expand the search layer by layer, suitable for finding shortest paths",
+      "principle": "Breadth-First Search uses a queue to traverse the graph. Starting from the source node, first visit all adjacent nodes, then visit adjacent nodes of those nodes, expanding layer by layer. This ensures that the path from source to any node is the shortest (in unweighted graphs).",
+      "steps": [
+        "Add source node to queue",
+        "Remove a node from queue",
+        "Visit all unvisited neighbors of this node",
+        "Add unvisited neighbors to queue",
+        "Repeat steps 2-4 until queue is empty"
+      ],
+      "timeComplexity": "Time complexity is O(V + E), V is number of vertices, E is number of edges",
+      "spaceComplexity": "Space complexity is O(V), needs to store queue and visited markers",
+      "scenarios": "Finding shortest paths in unweighted graphs. \"N-degree friends\" queries in social networks. Web crawlers in search engines. Maze solving (find shortest path).",
+      "example": "Starting BFS from node A: A enters queue → dequeue and visit A, A's neighbors B, C enter queue → dequeue B, visit B, B's neighbor D enters queue → dequeue C, visit C... (layer by layer)"
+    },
+    "dfs": {
+      "name": "Depth-First Search",
+      "description": "Go as deep as possible along one path, then backtrack to explore other paths",
+      "principle": "Depth-First Search uses a stack (recursive call stack) to traverse the graph. Starting from the source node, go as deep as possible along one path until unable to continue, then backtrack to the nearest branch point and explore other paths.",
+      "steps": [
+        "Start from source, mark as visited and push to stack",
+        "Look for unvisited neighbors of the top node in stack",
+        "If unvisited neighbor exists, visit it and push to stack",
+        "If no unvisited neighbor exists, pop from stack",
+        "Repeat steps 2-4 until stack is empty"
+      ],
+      "timeComplexity": "Time complexity is O(V + E), V is number of vertices, E is number of edges",
+      "spaceComplexity": "Space complexity is O(V), needs to store stack and visited markers",
+      "scenarios": "Detecting connected components in graphs. Topological sorting. Solving maze problems (not guaranteed shortest path). Depth-first traversal. Cycle detection.",
+      "example": "Starting DFS from node A: Visit A, A's neighbor B, visit B, B's neighbor C, visit C... go deep to leaf, then backtrack, explore other branches"
+    },
+    "dijkstra": {
+      "name": "Dijkstra's Shortest Path",
+      "description": "Calculate the shortest path from source to all other nodes",
+      "principle": "Dijkstra's algorithm calculates single-source shortest paths (from one source to all other nodes). It uses a greedy strategy: each time, select the unvisited node with the minimum current distance, then update distances of its neighbors.",
+      "steps": [
+        "Initialize: set source distance to 0, other nodes' distances to infinity",
+        "Select the unvisited node with minimum distance",
+        "Visit this node",
+        "For each neighbor of this node, calculate distance through this node",
+        "If calculated distance is less than known distance, update distance",
+        "Repeat steps 2-5 until all nodes are visited"
+      ],
+      "timeComplexity": "With heap optimization: O((V + E) log V)",
+      "spaceComplexity": "Space complexity is O(V), needs to store distances and visited state",
+      "scenarios": "Shortest path calculation in GPS navigation systems. Routing in computer networks. Flight schedule analysis. Logistics distribution route optimization.",
+      "example": "Starting from point A: A distance = 0, update B = 2, C = 3 → select B → update D = 4, E = 6 → select C → update D = 3 (smaller) → continue until all points processed"
+    }
+  },
+  "datastructure": {
+    "title": "Data Structures",
+    "description": "Operation demonstrations of basic data structures",
+    "stack": {
+      "name": "Stack",
+      "description": "Last-In-First-Out (LIFO) data structure",
+      "principle": "A stack is a special linear data structure that only allows insertion and deletion at one end (the top). Last-In-First-Out (LIFO) principle: the last element entering the stack is the first to be popped out.",
+      "operations": {
+        "push": "Push: Add element to top of stack",
+        "pop": "Pop: Remove and return top element",
+        "peek": "Peek: View top element without removing",
+        "isEmpty": "Is Empty: Check if stack is empty"
+      },
+      "timeComplexity": "All operations have O(1) time complexity",
+      "spaceComplexity": "Space complexity is O(n), where n is number of elements in stack",
+      "scenarios": "Function call stack (recursive calls). Undo operations (editors). Bracket matching. Expression evaluation (calculators). Backtracking algorithms."
+    },
+    "queue": {
+      "name": "Queue",
+      "description": "First-In-First-Out (FIFO) data structure",
+      "principle": "A queue is a special linear data structure following the First-In-First-Out (FIFO) principle. Elements are added at the tail and removed from the head. Like people standing in line to buy tickets: the first person in line is served first.",
+      "operations": {
+        "enqueue": "Enqueue: Add element to tail of queue",
+        "dequeue": "Dequeue: Remove and return head element",
+        "front": "Front: View head element without removing",
+        "isEmpty": "Is Empty: Check if queue is empty"
+      },
+      "timeComplexity": "All operations have O(1) time complexity",
+      "spaceComplexity": "Space complexity is O(n), where n is number of elements in queue",
+      "scenarios": "Task scheduling (operating systems). Message queues. BFS graph traversal. Print task queue. Network request queue."
+    },
+    "linkedList": {
+      "name": "Linked List",
+      "description": "A sequence of nodes connected by pointers",
+      "principle": "A linked list is a linear data structure where each node contains data and a pointer to the next node (singly linked list). Nodes don't need to be stored contiguously; they're linked together through pointers.",
+      "operations": {
+        "insert": "Insert: Insert new node at specified position",
+        "delete": "Delete: Delete node at specified position",
+        "search": "Search: Search node by value",
+        "traverse": "Traverse: Visit all nodes sequentially"
+      },
+      "timeComplexity": "O(1) for head operations, O(n) for search and position-based operations",
+      "spaceComplexity": "Space complexity is O(n), needs to store data and pointers",
+      "scenarios": "Implementing other data structures (stacks, queues). Dynamic memory allocation. Music playlists. Browser history (forward/backward).",
+      "position": "Position (optional)",
+      "deletePosition": "Delete position",
+      "peek": "Peek"
+    },
+    "message": {
+      "initial": "Add operations and click \"Start\" to execute",
+      "noOperations": "Please add operations first"
+    },
+    "operations": "Operations"
+  },
+  "search": {
+    "title": "Search Algorithms",
+    "description": "Visualization demonstrations of common search algorithms",
+    "type": "Search Type",
+    "arrayElements": "Array Elements:",
+    "setTarget": "Set target value and click \"Start Search\"",
+    "start": "Start Search",
+    "prerequisite": "Prerequisite: Array must be sorted",
+    "binarySearch": {
+      "name": "Binary Search",
+      "description": "In a sorted array, quickly locate the target element by halving the search range",
+      "principle": "Binary Search is suitable for sorted arrays. Each search halves the search range: compare the middle element with the target value. If equal, found the target. If target is smaller, continue searching in the left half. If target is larger, continue searching in the right half.",
+      "steps": [
+        "Determine the left and right boundaries of the search range",
+        "Calculate middle position: mid = (left + right) / 2",
+        "Compare middle element with target value",
+        "If equal, return middle position (found target)",
+        "If target is smaller, narrow right boundary to mid-1",
+        "If target is larger, narrow left boundary to mid+1",
+        "Repeat steps 2-6 until target is found or range is empty"
+      ],
+      "timeComplexity": "Time complexity is O(log n)",
+      "spaceComplexity": "Space complexity is O(1) (iterative) or O(log n) (recursive)",
+      "scenarios": "Suitable for static searching (ordered data with infrequent insertions/deletions). Such as dictionary lookup, database indexing, spell checking, etc.",
+      "example": "Search for target value 7 in sorted array [1, 3, 5, 7, 9, 11, 13]: mid=5 (value 9) > 7, narrow right boundary; mid=2 (value 5) < 7, expand left boundary; mid=3 (value 7), found target",
+      "info": "Binary search requires the array to be sorted. Each time the search range is halved to quickly locate the target element."
+    },
+    "linearSearch": {
+      "name": "Linear Search",
+      "description": "Traverse the array sequentially, comparing each element to find the target",
+      "principle": "Linear Search is the simplest search algorithm. Starting from the first element of the array, compare each element with the target value. If found, return the element position. If the entire array is traversed without finding, return failure.",
+      "steps": [
+        "Start from the first element of the array",
+        "Compare the current element with the target value",
+        "If equal, return current position (found target)",
+        "Move to the next element",
+        "Repeat steps 2-4 until target is found or end of array reached"
+      ],
+      "timeComplexity": "Best case O(1), average and worst case O(n)",
+      "spaceComplexity": "Space complexity is O(1)",
+      "scenarios": "Suitable for unordered or small-scale data. When data is irregular and insertions/deletions are frequent. Can also be used when search frequency is very low.",
+      "example": "Search for target value 22 in array [64, 25, 12, 22, 11]: Start comparing from index 0, 64 ≠ 22, 25 ≠ 22, 12 ≠ 22, 22 = 22, found target at index 3"
+    }
+  },
+  "tree": {
+    "title": "Tree Structures",
+    "description": "Binary trees and related operation visualizations",
+    "traversalType": "Traversal Type:",
+    "depth": "Tree Depth",
+    "result": "Traversal Result:",
+    "selectType": "Select traversal type and click \"Start Traversal\"",
+    "start": "Start Traversal",
+    "reset": "Reset Tree",
+    "binaryTreeTraversal": "Binary Tree Traversal Guide",
+    "binaryTree": {
+      "name": "Binary Tree Traversal",
+      "description": "Pre-order, in-order, and post-order traversal of binary trees",
+      "principle": "Binary tree traversal is the foundation of tree operations, with three main methods: Pre-order (Root-Left-Right), In-order (Left-Root-Right), Post-order (Left-Right-Root). The traversal order refers to when the root node is visited.",
+      "steps": "Traversal process is recursive, each node is visited once",
+      "preorder": {
+        "name": "Preorder",
+        "order": "Root-Left-Right",
+        "description": "Order: Root → Left Subtree → Right Subtree",
+        "steps": [
+          "Visit current node (root)",
+          "Recursively traverse left subtree",
+          "Recursively traverse right subtree"
+        ],
+        "principle": "Pre-order traversal visits in \"Root-Left-Right\" order. This traversal is commonly used for creating or copying binary trees and obtaining prefix expressions of trees.",
+        "scenarios": "Used for tree copying and serialization. Generate prefix expressions (like prefix notation of mathematical expressions). Create backups of directory structures."
+      },
+      "inorder": {
+        "name": "Inorder",
+        "order": "Left-Root-Right",
+        "description": "Order: Left Subtree → Root → Right Subtree",
+        "steps": [
+          "Recursively traverse left subtree",
+          "Visit current node (root)",
+          "Recursively traverse right subtree"
+        ],
+        "principle": "In-order traversal visits in \"Left-Root-Right\" order. For binary search trees, in-order traversal visits all nodes in ascending order.",
+        "scenarios": "In-order traversal of binary search tree yields sorted sequence. Obtain infix expressions from expression trees. Used in parsers for syntax analysis."
+      },
+      "postorder": {
+        "name": "Postorder",
+        "order": "Left-Right-Root",
+        "description": "Order: Left Subtree → Right Subtree → Root",
+        "steps": [
+          "Recursively traverse left subtree",
+          "Recursively traverse right subtree",
+          "Visit current node (root)"
+        ],
+        "principle": "Post-order traversal visits in \"Left-Right-Root\" order. This ensures that all child nodes have been processed before visiting the root node.",
+        "scenarios": "Used for releasing binary trees (release children first, then parent). Calculate sizes of directories and subdirectories. Generate postfix expressions of trees."
+      }
+    }
+  },
+  "graph": {
+    "title": "Graph Algorithms",
+    "description": "Graph traversal and shortest path algorithms",
+    "nodeCount": "Node Count",
+    "start": "Start",
+    "message": {
+      "initial": "Click \"Start\" to run algorithm",
+      "completed": "Algorithm execution completed"
+    },
+    "bfs": {
+      "name": "Breadth-First Search",
+      "description": "Starting from the source, expand the search layer by layer, suitable for finding shortest paths",
+      "principle": "Breadth-First Search uses a queue to traverse the graph. Starting from the source node, first visit all adjacent nodes, then visit adjacent nodes of those nodes, expanding layer by layer. This ensures that the path from source to any node is the shortest (in unweighted graphs).",
+      "steps": [
+        "Add source node to queue",
+        "Remove a node from queue",
+        "Visit all unvisited neighbors of this node",
+        "Add unvisited neighbors to queue",
+        "Repeat steps 2-4 until queue is empty"
+      ],
+      "timeComplexity": "Time complexity is O(V + E), V is number of vertices, E is number of edges",
+      "spaceComplexity": "Space complexity is O(V), needs to store queue and visited markers",
+      "scenarios": "Finding shortest paths in unweighted graphs. \"N-degree friends\" queries in social networks. Web crawlers in search engines. Maze solving (find shortest path).",
+      "example": "Starting BFS from node A: A enters queue → dequeue and visit A, A's neighbors B, C enter queue → dequeue B, visit B, B's neighbor D enters queue → dequeue C, visit C... (layer by layer)"
+    },
+    "dfs": {
+      "name": "Depth-First Search",
+      "description": "Go as deep as possible along one path, then backtrack to explore other paths",
+      "principle": "Depth-First Search uses a stack (recursive call stack) to traverse the graph. Starting from the source node, go as deep as possible along one path until unable to continue, then backtrack to the nearest branch point and explore other paths.",
+      "steps": [
+        "Start from source, mark as visited and push to stack",
+        "Look for unvisited neighbors of the top node in stack",
+        "If unvisited neighbor exists, visit it and push to stack",
+        "If no unvisited neighbor exists, pop from stack",
+        "Repeat steps 2-4 until stack is empty"
+      ],
+      "timeComplexity": "Time complexity is O(V + E), V is number of vertices, E is number of edges",
+      "spaceComplexity": "Space complexity is O(V), needs to store stack and visited markers",
+      "scenarios": "Detecting connected components in graphs. Topological sorting. Solving maze problems (not guaranteed shortest path). Depth-first traversal. Cycle detection.",
+      "example": "Starting DFS from node A: Visit A, A's neighbor B, visit B, B's neighbor C, visit C... go deep to leaf, then backtrack, explore other branches"
+    },
+    "dijkstra": {
+      "name": "Dijkstra's Shortest Path",
+      "description": "Calculate the shortest path from source to all other nodes",
+      "principle": "Dijkstra's algorithm calculates single-source shortest paths (from one source to all other nodes). It uses a greedy strategy: each time, select the unvisited node with the minimum current distance, then update distances of its neighbors.",
+      "steps": [
+        "Initialize: set source distance to 0, other nodes' distances to infinity",
+        "Select the unvisited node with minimum distance",
+        "Visit this node",
+        "For each neighbor of this node, calculate distance through this node",
+        "If calculated distance is less than known distance, update distance",
+        "Repeat steps 2-5 until all nodes are visited"
+      ],
+      "timeComplexity": "With heap optimization: O((V + E) log V)",
+      "spaceComplexity": "Space complexity is O(V), needs to store distances and visited state",
+      "scenarios": "Shortest path calculation in GPS navigation systems. Routing in computer networks. Flight schedule analysis. Logistics distribution route optimization.",
+      "example": "Starting from point A: A distance = 0, update B = 2, C = 3 → select B → update D = 4, E = 6 → select C → update D = 3 (smaller) → continue until all points processed"
+    }
+  },
+  "categories": {
+    "sorting": "Sorting Algorithms",
+    "search": "Search Algorithms",
+    "tree": "Tree Structures",
+    "graph": "Graph Algorithms",
+    "datastructure": "Data Structures"
+  }
+}

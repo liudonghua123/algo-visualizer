@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { BarChart2, RefreshCw, Clock } from 'lucide-react';
 import './StatsDisplay.css';
 
@@ -13,6 +14,8 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({
   swaps,
   elapsedTime,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="stats-display" role="status" aria-live="polite">
       <div className="stat-item">
@@ -20,7 +23,7 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({
           <BarChart2 size={20} />
         </div>
         <div className="stat-content">
-          <div className="stat-label">比较次数</div>
+          <div className="stat-label">{t('common.comparisons')}</div>
           <div className="stat-value">{comparisons.toLocaleString()}</div>
         </div>
       </div>
@@ -32,7 +35,7 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({
           <RefreshCw size={20} />
         </div>
         <div className="stat-content">
-          <div className="stat-label">交换次数</div>
+          <div className="stat-label">{t('common.swaps')}</div>
           <div className="stat-value">{swaps.toLocaleString()}</div>
         </div>
       </div>
@@ -44,7 +47,7 @@ const StatsDisplay: React.FC<StatsDisplayProps> = ({
           <Clock size={20} />
         </div>
         <div className="stat-content">
-          <div className="stat-label">执行时间</div>
+          <div className="stat-label">{t('common.timeComplexity')}</div>
           <div className="stat-value">{elapsedTime.toFixed(2)}s</div>
         </div>
       </div>
