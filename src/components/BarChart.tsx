@@ -20,38 +20,35 @@ const BarChart: React.FC<BarChartProps> = ({
     const classes = ['bar'];
 
     if (sortedIndices.includes(index)) {
-      classes.push('bar-sorted');
+      classes.push('sorted');
     } else if (pivotIndex === index) {
-      classes.push('bar-pivot');
+      classes.push('pivot');
     } else if (highlightedIndices.includes(index)) {
       if (highlightedIndices.length === 2) {
-        classes.push('bar-comparing');
+        classes.push('comparing');
       } else {
-        classes.push('bar-swapping');
+        classes.push('swapping');
       }
     } else {
-      classes.push('bar-default');
+      classes.push('default');
     }
 
     return classes.join(' ');
   };
 
-  const barWidth = Math.max(4, Math.min(40, Math.floor(600 / array.length) - 2));
-
   return (
     <div className="bar-chart" role="img" aria-label="排序可视化柱状图">
-      <div className="bar-chart-container">
+      <div className="bar-container">
         {array.map((value, index) => (
-          <div
-            key={index}
-            className={getBarClassName(index)}
-            style={{
-              height: `${(value / maxValue) * 100}%`,
-              width: `${barWidth}px`,
-            }}
-            aria-label={`值: ${value}`}
-          >
-            <div className="bar-value">{value}</div>
+          <div key={index} className="bar-wrapper">
+            <div
+              className={getBarClassName(index)}
+              style={{
+                height: `${(value / maxValue) * 100}%`,
+              }}
+              aria-label={`值: ${value}`}
+            />
+            <span className="bar-value">{value}</span>
           </div>
         ))}
       </div>

@@ -20,11 +20,15 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
     return (
       <div className="code-display">
         <div className="code-header">
-          <Code size={18} />
-          <span>代码</span>
+          <div className="code-title">
+            <Code size={18} />
+            <span>代码</span>
+          </div>
         </div>
-        <div className="code-content">
-          <p className="code-empty">选择算法以查看代码</p>
+        <div className="code-content-wrapper">
+          <div className="code-content">
+            <p className="code-empty">选择算法以查看代码</p>
+          </div>
         </div>
       </div>
     );
@@ -33,7 +37,7 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
   return (
     <div className="code-display">
       <div className="code-header">
-        <div className="code-header-left">
+        <div className="code-title">
           {language === 'python' ? (
             <>
               <Terminal size={18} />
@@ -46,38 +50,34 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
             </>
           )}
         </div>
-        <div className="code-header-right">
-          <span className="code-algorithm">{algorithm}</span>
-        </div>
+        <div className="code-algorithm">{algorithm}</div>
       </div>
-      <div className="code-content">
-        <pre className="code-pre">
-          <code className="code-block">
-            {code.lines.map((line, index) => {
-              const lineNumber = index + 1;
-              const isHighlighted = highlightedLines.includes(lineNumber);
-              const description = code.lineHighlights[lineNumber];
+      <div className="code-content-wrapper">
+        <div className="code-content">
+          {code.lines.map((line, index) => {
+            const lineNumber = index + 1;
+            const isHighlighted = highlightedLines.includes(lineNumber);
+            const description = code.lineHighlights[lineNumber];
 
-              return (
-                <div
-                  key={index}
-                  className={`code-line ${isHighlighted ? 'code-line-highlighted' : ''}`}
-                  data-line={lineNumber}
-                >
-                  <span className="line-number">{lineNumber}</span>
-                  <span className="line-content">
-                    <span className="line-code">{line || ' '}</span>
-                    {description && (
-                      <span className="line-comment">
-                        {'  // ' + description}
-                      </span>
-                    )}
-                  </span>
-                </div>
-              );
-            })}
-          </code>
-        </pre>
+            return (
+              <div
+                key={index}
+                className={`code-line ${isHighlighted ? 'highlighted' : ''}`}
+                data-line={lineNumber}
+              >
+                <span className="line-number">{lineNumber}</span>
+                <span className="line-content">
+                  <span className="line-code">{line || ' '}</span>
+                  {description && (
+                    <span className="comment">
+                      {'  // ' + description}
+                    </span>
+                  )}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
