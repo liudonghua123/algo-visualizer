@@ -46,7 +46,9 @@
     "visualize": "Visualize",
     "controls": "Controls",
     "statistics": "Statistics",
-    "code": "Code"
+    "code": "Code",
+    "algorithm": "Algorithm",
+    "peek": "Peek"
   },
   "home": {
     "title": "Algorithm Visualization Platform",

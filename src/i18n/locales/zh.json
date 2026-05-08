@@ -47,7 +47,8 @@
     "controls": "控制面板",
     "statistics": "统计信息",
     "code": "代码",
-    "algorithm": "算法"
+    "algorithm": "算法",
+    "peek": "查看"
   },
   "home": {
     "title": "算法可视化平台",

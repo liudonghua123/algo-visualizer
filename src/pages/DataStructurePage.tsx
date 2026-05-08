@@ -153,7 +153,7 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
               onClick={() => addOperation('peek')}
               disabled={isRunning}
             >
-              {t('datastructure.stack.peek')}
+              {t('common.peek')}
             </button>
           </>
         );
@@ -193,7 +193,7 @@ const DataStructurePage: React.FC<DataStructurePageProps> = ({ algorithmId }) =>
               onClick={() => addOperation('peek')}
               disabled={isRunning}
             >
-              {t('datastructure.queue.front')}
+              {t('common.peek')}
             </button>
           </>
         );
