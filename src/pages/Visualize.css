@@ -1,6 +1,6 @@
 .visualize-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 50%, var(--color-bg-secondary) 100%);
   padding: 20px;
 }
 
@@ -8,9 +8,9 @@
   max-width: 1400px;
   margin: 0 auto 32px;
   padding: 24px;
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
 }
 
 .back-button {
@@ -19,9 +19,9 @@
   gap: 8px;
   padding: 10px 20px;
   background: transparent;
-  border: 2px solid #475569;
+  border: 2px solid var(--color-text-muted);
   border-radius: 8px;
-  color: #94a3b8;
+  color: var(--color-text-muted);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -31,7 +31,7 @@
 
 .back-button:hover {
   border-color: #6366f1;
-  color: #f1f5f9;
+  color: var(--color-text);
   background: rgba(99, 102, 241, 0.1);
 }
 
@@ -49,13 +49,13 @@
 .visualize-title {
   font-size: 36px;
   font-weight: 800;
-  color: #f1f5f9;
+  color: var(--color-text);
   margin: 0;
 }
 
 .visualize-description {
   font-size: 16px;
-  color: #94a3b8;
+  color: var(--color-text-muted);
   margin: 0 0 16px 0;
   line-height: 1.6;
 }
@@ -94,7 +94,7 @@
 
 .details-toggle:hover {
   background: rgba(99, 102, 241, 0.2);
-  color: #f1f5f9;
+  color: var(--color-text);
 }
 
 .algorithm-details {
@@ -130,7 +130,7 @@
 
 .detail-section p {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--color-text-muted);
   line-height: 1.8;
   margin: 0;
 }
@@ -142,7 +142,7 @@
 
 .detail-section ol li {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--color-text-muted);
   line-height: 1.8;
   margin-bottom: 6px;
 }
