@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import CodeDisplay from '@/components/CodeDisplay';
 import { TreeNode, TreeStep } from '../algorithms/treeTypes';
-import { preorder, inorder, postorder, generateSampleTree } from '../algorithms/treeAlgorithms';
+import { createRandomBinaryTree, preorderTraversal, inorderTraversal, postorderTraversal } from '../algorithms/treeTraversal';
 import './TreeVisualizerPage.css';
 
 interface TreeVisualizerPageProps {
@@ -11,7 +11,7 @@ interface TreeVisualizerPageProps {
 
 const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) => {
   const { t } = useTranslation();
-  const [tree, setTree] = useState<TreeNode>(() => generateSampleTree());
+  const [tree, setTree] = useState<TreeNode>(() => createRandomBinaryTree(4));
   const [traversalType, setTraversalType] = useState<'preorder' | 'inorder' | 'postorder'>(
     algorithmId === 'preorder' ? 'preorder' : algorithmId === 'inorder' ? 'inorder' : 'postorder'
   );
@@ -28,7 +28,7 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
     }
-    setTree(generateSampleTree());
+    setTree(createRandomBinaryTree(4));
     setCurrentStep(null);
     setIsRunning(false);
     setHighlightedLines([]);
@@ -39,10 +39,10 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
     if (!generatorRef.current) {
       generatorRef.current =
         traversalType === 'preorder'
-          ? preorder(tree)
+          ? preorderTraversal(tree)
           : traversalType === 'inorder'
-          ? inorder(tree)
-          : postorder(tree);
+          ? inorderTraversal(tree)
+          : postorderTraversal(tree);
     }
 
     setIsRunning(true);
@@ -71,12 +71,14 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
 
       if (stepData.type === 'visit') {
         setHighlightedLines([5]);
-      } else if (stepData.type === 'left') {
-        setHighlightedLines([6]);
-      } else if (stepData.type === 'right') {
-        setHighlightedLines([7]);
-      } else if (stepData.type === 'base') {
-        setHighlightedLines([2, 3]);
+      } else if (stepData.type === 'explore') {
+        if (traversalType === 'preorder') {
+          setHighlightedLines([5]);
+        } else if (traversalType === 'inorder') {
+          setHighlightedLines([6]);
+        } else {
+          setHighlightedLines([7]);
+        }
       }
 
       animationRef.current = requestAnimationFrame(() => {
@@ -91,7 +93,7 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isRunning, speed]);
+  }, [isRunning, speed, traversalType]);
 
   useEffect(() => {
     reset();
@@ -100,16 +102,16 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
   const renderNode = (node: TreeNode | null, level: number = 0, position: number = 0): JSX.Element | null => {
     if (!node) return null;
 
-    const isCurrent = currentStep?.currentNode?.val === node.val;
-    const isVisited = currentStep?.visitedNodes?.includes(node.val) || false;
-    const isInStack = currentStep?.stackNodes?.includes(node.val) || false;
+    const nodeId = (node as any).id;
+    const isCurrent = currentStep?.currentNode === nodeId;
+    const isVisited = currentStep?.visitedNodes?.includes(node.value) || false;
 
     return (
-      <div className="tree-node-wrapper" key={node.val}>
+      <div className="tree-node-wrapper" key={nodeId}>
         <div
-          className={`tree-node ${isCurrent ? 'current' : ''} ${isVisited ? 'visited' : ''} ${isInStack ? 'in-stack' : ''}`}
+          className={`tree-node ${isCurrent ? 'current' : ''} ${isVisited ? 'visited' : ''}`}
         >
-          <div className="node-value">{node.val}</div>
+          <div className="node-value">{node.value}</div>
         </div>
         {(node.left || node.right) && (
           <div className="tree-children">
@@ -196,11 +198,11 @@ const TreeVisualizerPage: React.FC<TreeVisualizerPageProps> = ({ algorithmId }) 
             <p>{currentStep?.message || t('tree.setTarget')}</p>
           </div>
 
-          {currentStep?.result && (
+          {currentStep?.traversal && currentStep.traversal.length > 0 && (
             <div className="result-box">
               <h4>{t('tree.result')}:</h4>
               <div className="result-sequence">
-                {currentStep.result.map((val, idx) => (
+                {currentStep.traversal.map((val, idx) => (
                   <span key={idx} className="result-item">{val}</span>
                 ))}
               </div>
