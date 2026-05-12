@@ -1,0 +1,108 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '版本号 (例如: v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Build Windows
+        run: flutter build windows --release
+
+      - name: Build macOS
+        run: flutter build macos --release
+
+      - name: Build Linux
+        run: flutter build linux --release
+
+      - name: Build Android APK
+        run: flutter build apk --release
+
+      - name: Build Android AAB
+        run: flutter build appbundle --release
+
+      - name: Build Web
+        run: flutter build web
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: ${{ github.event.inputs.version }}
+          draft: false
+          prerelease: false
+          files: |
+            build/windows/runner/Release/*.exe
+            build/macos/Build/Products/Release/*.app
+            build/macos/Build/Products/Release/*.dmg
+            build/linux/x64/release/bundle/*
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/bundle/app-release.aab
+            build/web/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows Assets
+        if: steps.create_release.outputs.upload_url != ''
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/windows/runner/Release/
+          asset_name: codevault-windows.zip
+          asset_content_type: application/zip
+
+      - name: Upload macOS Assets
+        if: steps.create_release.outputs.upload_url != ''
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/macos/Build/Products/Release/
+          asset_name: codevault-macos.zip
+          asset_content_type: application/zip
+
+      - name: Upload Linux Assets
+        if: steps.create_release.outputs.upload_url != ''
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/linux/x64/release/bundle/
+          asset_name: codevault-linux.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Upload Android APK
+        if: steps.create_release.outputs.upload_url != ''
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app/outputs/flutter-apk/app-release.apk
+          asset_name: codevault-android.apk
+          asset_content_type: application/vnd.android.package-archive
+
+      - name: Upload Android AAB
+        if: steps.create_release.outputs.upload_url != ''
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app/outputs/bundle/app-release.aab
+          asset_name: codevault-android.aab
+          asset_content_type: application/vnd.android.package-archive

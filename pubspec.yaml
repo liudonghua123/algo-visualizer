@@ -1,0 +1,42 @@
+name: code_vault
+description: "CodeVault - 全能代码编辑器/查看器，支持语法高亮、代码折叠、多平台运行"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # 代码编辑器核心
+  highlight: ^0.7.0
+  flutter_highlight: ^0.7.0
+
+  # 文件操作
+  file_picker: ^8.0.0+1
+  path_provider: ^2.1.2
+  path: ^1.9.0
+
+  # UI/UX 和状态管理
+  provider: ^6.1.1
+  shared_preferences: ^2.2.2
+  google_fonts: ^6.1.0
+
+  # Web 特定
+  universal_html: ^2.2.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
